@@ -3,6 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import morgan from "morgan";
 
+import { pool } from "./db.js";
+
+
 dotenv.config();
 
 const app = express();
@@ -12,6 +15,16 @@ app.use(cors());
 
 app.get("/health", (req, res) => {
   res.json({ ok: true, app: "German Beyond Exams API" });
+});
+
+app.get("/db-test", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW() as now");
+    res.json({ ok: true, now: result.rows[0].now });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, message: "DB connection failed" });
+  }
 });
 
 const PORT = process.env.PORT || 5000;
