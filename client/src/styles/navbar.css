@@ -30,6 +30,7 @@
   background: var(--brand);
   color: var(--brand-contrast);
   font-weight: 900;
+  cursor: pointer;
 }
 
 .nav{

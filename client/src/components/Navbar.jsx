@@ -9,7 +9,7 @@ export default function Navbar() {
     <header className="navbar">
       <div className="container navbar__inner">
         <div className="brand">
-          <div className="brand__logo">G</div>
+          <div className="brand__logo" onClick={() => navigate("/")}>G</div>
           <span>German Beyond Exams</span>
         </div>
 

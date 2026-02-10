@@ -13,6 +13,27 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 
+
+import authRouter from "./routes/auth.js";
+app.use("/auth", authRouter)   //it basically creates a route called auth where register and login can be added
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.get("/health", (req, res) => {
   res.json({ ok: true, app: "German Beyond Exams API" });
 });

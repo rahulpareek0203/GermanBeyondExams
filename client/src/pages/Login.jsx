@@ -3,16 +3,60 @@ import "../styles/login.css";
 import "../styles/globals.css";
 import { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000"
 
 export default function Login() {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-    function handleSubmit(e) {
+    const [message, setMessage] = useState("")
+    const [loading, setLoading] = useState(false)
+
+    const navigate = useNavigate()
+
+    async function handleSubmit(e) {
         e.preventDefault();
-        alert(`Login with data: ${email}`)
+        setMessage("");
+        setLoading(true)
+
+        try {
+            
+            const res = await fetch(`${API}/auth/login`, {
+                method: "POST",
+                headers: { "Content-type": "application/json"   },
+                body: JSON.stringify({
+                    email, password         // see in backend we get these values using req.body
+                })
+            })
+
+            const data = await res.json()
+            console.log("----> message from frontend:", data)
+
+            if(!res.ok){
+                setMessage(data.message || "❌ Login failed");
+                setLoading(false);
+                return;
+            }
+
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user))
+            console.log("----> message from frontend for JWT:", data.token)
+
+
+            setMessage("✅ Login successful!");
+            setLoading(false);
+            
+
+            // redirect after login
+            setTimeout(() => navigate("/"), 500);
+
+        } catch (error) {
+            setMessage("❌ Network error: backend not reachable.");
+            setLoading(false);
+        }
     }
     return(
         <section className="section">
@@ -37,8 +81,10 @@ export default function Login() {
                         />
                     </div>    
 
-                    <button className="btn_primary" type="submit">
-                        Login
+                    {message}
+
+                    <button className="btn_primary" type="submit" disabled = {loading}>
+                        {loading? "Loggin in...": "Login"}
                     </button>          
 
                     <div className="loginLinks">

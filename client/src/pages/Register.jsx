@@ -2,16 +2,56 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/layout.css";
 import "../styles/login.css";
+import { useNavigate } from "react-router-dom";
+
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    function handleSubmit(e) {
+    const navigate = useNavigate();
+
+
+    async function handleSubmit(e) {
         e.preventDefault();
-        alert(`Create account: ${name}, ${email}`);
+        
+        setMessage("")
+        setLoading(true)
+
+        try {
+            const res = await fetch(`${API}/auth/register`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    full_name : name,
+                    email: email,
+                    password: password
+                })
+            })
+
+            const data = await res.json()
+
+            if(!res.ok){
+                setMessage(data.message || "Registration Failed !!!")
+                setLoading(false)
+                return
+            }
+
+            setMessage("✅ Account created successfully! Please login.");
+            setLoading(false);
+
+            // Optionally redirect to login after success
+            setTimeout(() => navigate("/login"), 800);
+        
+        } catch (error) {
+            setMessage("❌ Network error: backend not reachable.");
+            setLoading(false);
+        }
     }
 
     return(
