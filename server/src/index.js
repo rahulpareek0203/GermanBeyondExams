@@ -15,7 +15,10 @@ app.use(cors());
 
 
 import authRouter from "./routes/auth.js";
-app.use("/auth", authRouter)   //it basically creates a route called auth where register and login can be added
+app.use("/api", authRouter)   //it basically creates a route called "auth" where register and login can be added
+
+import adminRoutes from "./routes/adminRoutes.js";
+app.use("/api", adminRoutes)
 
 
 

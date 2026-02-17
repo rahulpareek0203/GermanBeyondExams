@@ -1,0 +1,88 @@
+.impact {
+  padding: 10px 0;
+  
+}
+
+.impact__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.impact__header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.impact__header h2 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.impact__header p {
+  font-size: 18px;
+  color: #64748b;
+}
+
+.impact__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.impact__card {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.impact__card:nth-child(1) {
+  background: linear-gradient(135deg, #eef2ff, #ffffff);
+}
+
+.impact__card:nth-child(2) {
+  background: linear-gradient(135deg, #f0f9ff, #ffffff);
+}
+
+.impact__card:nth-child(3) {
+  background: linear-gradient(135deg, #f5f3ff, #ffffff);
+}
+
+.impact__card:nth-child(4) {
+  background: linear-gradient(135deg, #ecfeff, #ffffff);
+}
+
+.impact__card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+}
+
+.impact__icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 28px;
+
+  background: linear-gradient(135deg, #f0b6b6, #a2c3f5f6);
+  color: white;
+}
+
+
+.impact__card h3 {
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+
+.impact__card p {
+  color: #64748b;
+  line-height: 1.6;
+}

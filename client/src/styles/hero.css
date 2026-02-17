@@ -1,14 +1,21 @@
 .hero{
   width: 100%;
-  min-height: calc(100vh - 64px); /* navbar height */
-  background: linear-gradient(180deg, var(--soft), #ffffff);
+  padding: 56px 0; /* better than forcing full height */
+  z-index: 1;
+  position: relative;
+}
+
+.hero_container{
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 82px;
 }
 
 .hero__grid{
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1.3fr 0.7fr;
   gap: 32px;
-  align-items: center;
+  align-items: start;
 }
 
 .hero__eyebrow{
@@ -18,11 +25,13 @@
 }
 
 .hero__title{
-  font-size: 48px;
-  line-height: 1.08;
-  margin: 0 0 14px;
-  letter-spacing: -0.02em;
+  font-size: 56px;
+  line-height: 1.05;
+  margin: 0 0 18px;
+  letter-spacing: -0.03em;
+  font-weight: 800;
 }
+
 
 .hero__text{
   font-size: 18px;
@@ -46,50 +55,24 @@
   font-weight: 600;
 }
 
-.panel{
-  border: 1px solid var(--border);
-  background: #fff;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 18px;
-}
 
-.panel__title{
-  margin: 0 0 8px;
-  font-size: 18px;
-}
 
-.panel__text{
-  margin: 0 0 14px;
-  color: var(--muted);
-}
-
-.cardlist{
-  display: grid;
-  gap: 10px;
-}
-
-.card{
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 12px;
-  background: #fff;
-}
-
-.card__title{
-  font-weight: 800;
-}
-
-.card__text{
-  margin-top: 4px;
-  color: var(--muted);
-}
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media (max-width: 920px){
+  .hero{
+    padding: 72px 0;
+  }
+
   .hero__grid{
     grid-template-columns: 1fr;
+    gap: 40px;
   }
+
   .hero__title{
     font-size: 40px;
+    max-width: 100%;
   }
 }
