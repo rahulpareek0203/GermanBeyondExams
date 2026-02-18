@@ -15,20 +15,21 @@ place-items: center;
   width: 100%;
   max-width: 420px;
   text-align: left;
-  padding: 20px;
+  padding: 0 20px;
   
   place-items: center;
 }
 
 .login_title {
-  margin: 0 0 6px;
+  margin: 0 0 4px;
   font-size: 28px;
   text-align: center;
+  color: red;
 }
 
 .login_subtitle {
   margin: 0 0 20px;
-  color: var(--muted);
+  color: red;
   place-items: center;
 }
 
@@ -37,7 +38,7 @@ place-items: center;
   gap: 16px;
   max-width: 440px;
   width: 100%;
-  margin-top: 14px;
+  margin-top: 7px;
 }
 
 .formGroup {
@@ -77,12 +78,11 @@ place-items: center;
 }
 
 .loginLinks{
-  margin-top: 18px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: row;
   gap: 12px;
   text-align: center;
+  align-items: center;
 }
 
 .link{
