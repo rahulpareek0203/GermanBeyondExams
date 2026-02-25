@@ -36,7 +36,7 @@ export default function CourseSection() {
     const [checking, setChecking] = useState(true);
 
     const totalSeats = 14;
-    const filledSeats = 6;
+    const filledSeats = 11;
 
     const fillPercentage = (filledSeats / totalSeats) * 100;
 
