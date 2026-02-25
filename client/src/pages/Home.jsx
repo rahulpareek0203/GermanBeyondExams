@@ -1,7 +1,7 @@
 import Hero from "../components/Hero";
 import ProblemSection from "../components/home/ProblemSection"
 import CommonProblems from "@/components/home/CommonProblems";
-import CourseSection from "@/components/home/courseSection";
+import CourseSection from "@/components/home/CourseSection";
 import DarkVeil from "@/components/ui/DarkVeilBackground";
 import WhyGermanFeelsHard from "@/components/home/WhyGermanFeelsHard";
 import "../styles/home.css"
