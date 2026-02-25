@@ -2,15 +2,20 @@
    PANEL WRAPPER
 ========================= */
 
-.panel {
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 24px;
-  padding: 28px;
-  
-  box-shadow: 
-    0 20px 60px rgba(0,0,0,0.06),
-    inset 0 1px 0 rgba(255,255,255,0.4);
+.panel-gradient-wrapper {
+  border-radius: 25px;
 }
+
+.panel-content {
+  border-radius: 25px;
+  padding: 32px;
+
+  background: #1a1230;   /* solid dark */
+  backdrop-filter: blur(16px);
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
 
 
 .panel:hover {
@@ -30,11 +35,11 @@
   font-weight: 800;
   margin: 0 0 6px 0;
   letter-spacing: -0.01em;
-  color: #111827;
+  color: #ffffff;
 }
 
 .panel__text {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.75);
   font-size: 15px;
   line-height: 1.5;
   margin-top: 1px;
@@ -57,7 +62,9 @@
   position: relative;
   border-radius: 18px;
   padding: 16px 18px;   /* reduced from 24px */
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(0,0,0,0.05);
   transition: all 0.25s ease;
   overflow: hidden;
@@ -106,24 +113,56 @@
 .batch-card__title {
   font-size: 20px;
   font-weight: 700;
-  color: #111827;
+  color: #ffffff;
   letter-spacing: -0.01em;
 }
 
 /* RED COMING SOON BADGE */
 
 .batch-card__badge {
-  font-size: 13px;
-  font-weight: 600;
-  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+
+  padding: 6px 18px;
+  height: 34px;
+  min-width: 160px;
+
   border-radius: 999px;
-  background: rgba(239, 68, 68, 0.12); /* soft red */
-  color: #dc2626; /* strong red text */
-  transition: all 0.2s ease;
+
+  backdrop-filter: blur(6px);
+  transition: all 0.25s ease;
 }
 
-.card:hover .batch-card__badge {
-  background: rgba(239, 68, 68, 0.18);
+.batch-card__badge {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.5);
+}
+
+.batch-card__badge:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.badge--open {
+  background: rgba(34, 197, 94, 0.12);
+  color: #86efac;
+  border: 1px solid rgba(134, 239, 172, 0.5);
+}
+
+
+.badge--open::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 999px;
+  background: rgba(119, 243, 164, 0.08);
+  z-index: -1;
 }
 
 /* =========================
@@ -131,7 +170,84 @@
 ========================= */
 
 .card__text {
-  color: #4b5563;
+  color: rgba(255, 255, 255, 0.75);
   font-size: 14px;
   line-height: 1.6;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+/* =========================
+   TABLET (iPad, small laptops)
+========================= */
+@media (min-width: 1024px) and (max-width: 1200px) {
+
+ 
+  .panel-content {
+    padding: 20px;
+  }
+
+  .panel__title {
+    font-size: 18px;
+  }
+
+  .batch-card__title {
+    font-size: 17px;
+  }
+
+  .card {
+    padding: 14px 16px; /* tighter */
+  }
+  .batch-card__badge{
+    min-width: 110px;
+    height: 30px;
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+
+}
+@media (max-width: 900px) {
+
+  .panel-content {
+    padding: 20px;
+  }
+
+}
+
+@media (max-width: 640px) {
+
+  /* Keep header in row */
+  .batch-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  /* Prevent overflow issues */
+  .batch-card__title {
+    font-size: 18px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Make badge compact */
+  .batch-card__badge {
+    min-width: 0;
+    width: 130px;        /* fixed equal width */
+    font-size: 12px;
+    padding: 6px 12px;
+    white-space: nowrap;
+  }
+
+  /* Slightly reduce card padding */
+  .card {
+    padding: 14px 16px;
+  }
+
 }

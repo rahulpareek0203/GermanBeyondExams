@@ -1,0 +1,177 @@
+/* =========================
+   IMPACT SECTION
+========================= */
+
+.impact {
+  padding: 50px 0;
+  position: relative;
+}
+
+.impact__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.impact__header {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.impact__header h2 {
+  font-size: 46px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.impact__header p {
+  font-size: 18px;
+  color: #a1a1aa;
+}
+
+/* =========================
+   GRID LAYOUT
+========================= */
+
+.impact__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+}
+
+/* =========================
+   CARD
+========================= */
+.impact__card {
+  position: relative;
+  padding: 45px 30px;
+  border-radius: 24px;
+  text-align: center;
+
+  background: linear-gradient(
+    145deg,
+    rgba(20, 20, 40, 0.95),
+    rgba(10, 10, 25, 0.95)
+  );
+
+  border: 2px solid rgba(255, 193, 117, 0.6);
+  transition: all 0.4s ease;
+}
+
+/* 🔥 Outer molten glow layers */
+.impact__card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  pointer-events: none;
+  z-index: -1;
+
+  box-shadow:
+    0 0 15px rgba(252, 169, 68, 0.8),
+    0 0 14px rgba(250, 184, 127, 0.5);
+
+  opacity: 0.8;
+  transition: all 0.4s ease;
+}
+/* Subtle pulse animation */
+@keyframes subtlePulse {
+  0%, 100% {
+    box-shadow:
+      0 0 6px rgba(255, 140, 0, 0.7),
+      0 0 14px rgba(255, 120, 0, 0.4);
+  }
+  50% {
+    box-shadow:
+      0 0 8px rgba(255, 160, 0, 0.9),
+      0 0 18px rgba(255, 130, 0, 0.6);
+  }
+}
+
+/* Slightly stronger on hover */
+.impact__card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 160, 0, 0.9);
+}
+
+
+
+/* =========================
+   ICON
+========================= */
+
+.impact__icon {
+  width: 75px;
+  height: 75px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+
+  background: linear-gradient(
+    135deg,
+    #7c3aed,
+    #3b82f6
+  );
+
+  box-shadow:
+    0 10px 30px rgba(124, 58, 237, 0.4),
+    0 0 25px rgba(59, 130, 246, 0.3);
+
+  color: white;
+}
+
+/* =========================
+   TEXT
+========================= */
+
+.impact__card h3 {
+  margin-bottom: 16px;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.impact__card p {
+  color: #a1a1aa;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .impact__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .impact__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .impact__card {
+    padding: 30px 18px;
+  }
+
+  .impact__header h2 {
+    font-size: 24px;
+  }
+
+  .impact__header p {
+    font-size: 14px;
+  }
+}
+

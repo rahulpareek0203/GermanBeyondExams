@@ -3,6 +3,7 @@
   padding: 56px 0; /* better than forcing full height */
   z-index: 1;
   position: relative;
+  color: white;
 }
 
 .hero_container{
@@ -22,6 +23,7 @@
   font-weight: 700;
   color: var(--muted);
   margin: 0 0 10px;
+  color: white;
 }
 
 .hero__title{
@@ -38,12 +40,14 @@
   color: var(--muted);
   margin: 0 0 22px;
   max-width: 52ch;
+  color: white; 
 }
 
 .hero__actions{
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  color: white;
 }
 
 .hero__badges{
@@ -53,17 +57,88 @@
   flex-wrap: wrap;
   color: var(--muted);
   font-weight: 600;
+  color: white;
 }
 
+/* =========================
+   BUTTON
+========================= */
+
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px 22px;
+  border-radius: 14px;
+
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.hero-btn--primary {
+  background: #ffffff;
+  color: #111827;
+  border: none;
+}
+
+.hero-btn--primary:hover {
+  background: #f3f4f6;
+  transform: translateY(-2px);
+}
+.hero-btn--secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(6px);
+}
+
+.hero-btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
 
 
 /* =========================
    RESPONSIVE
 ========================= */
 
-@media (max-width: 920px){
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1024px){
+
+  .hero_container {
+    padding: 0 40px;
+  }
+
+  .hero__grid{
+    grid-template-columns: 1fr 1fr;  /* balanced split */
+    gap: 40px;
+  }
+
+  .hero__title{
+    font-size: 46px;
+  }
+
+}
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px){
+
   .hero{
     padding: 72px 0;
+  }
+
+  .hero_container {
+    padding: 0 24px;
   }
 
   .hero__grid{
@@ -72,7 +147,11 @@
   }
 
   .hero__title{
-    font-size: 40px;
-    max-width: 100%;
+    font-size: 36px;
+    line-height: 1.1;
+  }
+
+  .hero__text{
+    font-size: 16px;
   }
 }

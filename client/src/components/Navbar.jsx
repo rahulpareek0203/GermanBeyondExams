@@ -43,6 +43,14 @@ export default function Navbar() {
     logout();          // handled by context
     navigate("/");     // redirect after logout
   }
+
+  const handleProfileClick = () => {
+    if (user?.role === "admin") {
+      navigate("/admin/profile");
+    } else {
+      navigate("/dashboard/profile");
+    }
+};
   
   return (
     <header className="navbar">
@@ -58,17 +66,13 @@ export default function Navbar() {
             Evolution
           </Link>
 
-          <Link to="/#pricing" className="nav__link">
-            Pricing
-          </Link>
-
           <Link to="/vision" className="nav__link">
             Vision
           </Link>
 
           {!user ? (
             <button
-              className="btn btn--secondary"
+              className="btn btn-login"
               type="button"
               onClick={() => navigate("/login")}
             >
@@ -91,7 +95,7 @@ export default function Navbar() {
                   <div className="profile-dropdown">
 
                     {/* TOP USER SECTION */}
-                    <div className="profile-header">
+                    <div className="nav-profile-header">
                       <div className="avatar_navbar">
                         {user.full_name.charAt(0).toUpperCase()}
                       </div>
@@ -104,7 +108,7 @@ export default function Navbar() {
                     <div className="dropdown-divider" />
 
                     {/* MENU ITEMS */}
-                    <button >
+                    <button onClick={handleProfileClick}>
                       Profile Info
                     </button>
 

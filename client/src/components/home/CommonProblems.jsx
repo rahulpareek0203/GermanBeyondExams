@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import "../../styles/CommonProblems.css";
+import "./CommonProblems.css";
 import thinkingImg from "../../assets/thinking.png";
 
 const problems = [
@@ -16,6 +16,23 @@ const problems = [
 export default function CommonProblems() {
   const sectionRef = useRef(null);
   const [visible, setVisible] = useState(false);
+
+  const [radius, setRadius] = useState(280);
+
+  useEffect(() => {
+    const updateRadius = () => {
+      if (window.innerWidth <= 768) {
+        setRadius(160);   // mobile radius
+      } else {
+        setRadius(280);   // desktop radius
+      }
+    };
+
+    updateRadius(); // run once
+    window.addEventListener("resize", updateRadius);
+
+    return () => window.removeEventListener("resize", updateRadius);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -34,7 +51,6 @@ export default function CommonProblems() {
     return () => observer.disconnect();
   }, []);
 
-  const radius = 280;
 
   return (
     <section className="common-problems-section">

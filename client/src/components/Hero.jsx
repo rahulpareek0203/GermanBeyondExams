@@ -33,21 +33,14 @@ export default function Hero() {
             </p>
 
             <div className="hero__actions">
-              <button
-                className="btn btn--primary"
-                type="button"
-                onClick={() => alert("Courses page later")}
-              >
+              
+              <a href="#courses" className="hero-btn hero-btn--primary">
                 View Courses
-              </button>
+              </a>
 
-              <button
-                className="btn btn--secondary"
-                type="button"
-                onClick={() => (window.location.hash = "pricing")}
-              >
+              <a href="#courses" className="hero-btn hero-btn--secondary">
                 See Pricing
-              </button>
+              </a>
             </div>
 
             <div className="hero__badges">

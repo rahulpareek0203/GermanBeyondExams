@@ -1,0 +1,171 @@
+.why-section {
+  padding: 70px 20px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.why-intro {
+  text-align: center;
+  max-width: 800px;
+  position: relative;
+}
+
+.why-intro h2 {
+  font-size: 56px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.why-intro p {
+  font-size: 20px;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.simple-stack {
+  position: relative;
+  padding: 70px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.card-left {
+  max-width: 55%;
+}
+
+.card-right {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-visual {
+  opacity: 0.12;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(-8deg);
+  transition: all 0.4s ease;
+}
+
+.simple-card:hover .icon-visual {
+  transform: rotate(-4deg) scale(1.05);
+  opacity: 0.18;
+}
+
+.case-visual span {
+  text-shadow: 0 0 20px rgba(255,255,255,0.3);
+}
+
+.simple-card {
+  position: sticky;
+  min-height: 70vh; /* THIS makes it thick */
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin-bottom: 160px; /* bigger gap */
+
+  padding: 80px;
+  border-radius: 48px;
+
+  background: linear-gradient(135deg, #2a1a5e, #4b2bbf);
+
+  color: white;
+
+  box-shadow:
+    0 60px 140px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  transition: transform 0.2s ease-out;
+  
+
+  width: 100%;
+}
+
+.simple-card h3 {
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
+
+.simple-card p {
+  font-size: 20px;
+  opacity: 0.85;
+}
+
+
+/* 
+    RESPONSIVENESS
+*/
+
+@media (max-width: 768px) {
+
+  .simple-card {
+    padding: 40px 28px;
+    min-height: 500px;
+    margin-bottom: 120px;
+    border-radius: 32px;
+    position: sticky;
+  }
+
+  .card-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .card-left {
+    max-width: 100%;
+  }
+
+  .card-right {
+    width: 100%;
+    order: -1; /* 👈 moves icon above text */
+  }
+
+  .icon-visual {
+    transform: none; /* remove rotation for clean mobile look */
+  }
+
+  .icon-visual svg {
+    width: 80px;
+    height: 80px;
+  }
+
+  .simple-card h3 {
+    font-size: 28px;
+  }
+
+  .simple-card p {
+    font-size: 16px;
+    opacity: 0.9;
+  }
+
+  .simple-stack {
+    padding: 60px 16px;
+  }
+
+  .why-intro h2 {
+    font-size: 34px;
+  }
+
+  .why-intro p {
+    font-size: 16px;
+  }
+}

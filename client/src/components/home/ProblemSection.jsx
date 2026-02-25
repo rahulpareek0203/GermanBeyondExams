@@ -1,4 +1,4 @@
-import "../../styles/ProblemSection.css";
+import "./ProblemSection.css";
 
 
 export default function ProblemSection() {
@@ -7,7 +7,7 @@ export default function ProblemSection() {
       <div className="impact__container">
 
         <div className="impact__header">
-          <h2>Why German Changes Your Life in Germany</h2>
+          <h2>How German Changes Your Life in Germany</h2>
           <p>
             German is not just a language — it's access, confidence, and opportunity.
           </p>

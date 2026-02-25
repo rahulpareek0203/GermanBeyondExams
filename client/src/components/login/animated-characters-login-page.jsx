@@ -9,6 +9,8 @@ import { Label } from "@/components/login/labelLogin";
 import { Checkbox } from "@/components/login/checkboxLogin";
 import { Eye, EyeOff, Mail, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+import WelcomeScreen from "../WelcomeScreen";
+import { HoverBorderGradient } from "../ui/LoginButton";
 "use client";
 
 import { cn } from "@/lib/utils";
@@ -174,6 +176,8 @@ function LoginPage() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [showWelcome, setShowWelcome] = useState(false);
+
 
 
   const purpleRef = useRef(null);
@@ -287,48 +291,74 @@ function LoginPage() {
   const orangePos = calculatePosition(orangeRef);
 
   async function handleSubmit(e) {
-        e.preventDefault();
-        setError("");
-        setIsLoading(true);
+      e.preventDefault();
 
-        try {
-            const res = await fetch(`${API}/api/login`, {
+      if (isLoading) return;
+
+      setError("");
+      setIsLoading(true);
+
+      try {
+          const res = await fetch(`${API}/api/login`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                email,
-                password,
-            }),
-            });
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          });
 
-            const data = await res.json();
-            console.log("Frontend response:", data);
+          if (!res) {
+            console.log(">>>> It failed in LoginPage during !res, which means null was returned from backend --> problematic")
+            setIsLoading(false);
+            return;
+          }
 
-            if (!res.ok) {
+          const data = await res.json();
+          console.log("Frontend response:", data);
+
+          if (!res.ok) {
+            console.log(">>>> It failed in LoginPage during !res.ok")
             setError(data.message || "❌ Login failed");
             setIsLoading(false);
             return;
-            }
+          }
 
-            // Save auth via context
-            login(data.user, data.token);
+          // Save auth via context
+          login(data.user, data.token);
 
-            console.log("JWT Token:", data.token);
+          console.log("JWT Token:", data.token);
 
-            setIsLoading(false);
+          setIsLoading(false);
 
-            // Role-based redirect
-            if (data.user.role === "admin") {
-            navigate("/admin");
-            } else {
-            navigate("/dashboard");
-            }
+          // 🔥 Role-based redirect
+          // if (data.user.role === "admin") {
+          //   navigate("/admin", { replace: true });
+          // } else {
+          //   navigate("/dashboard", { replace: true });
+          // }
 
-        } catch (error) {
-            setError("❌ Network error: backend not reachable.");
-            setIsLoading(false);
-        }
-    }
+          // Decide redirect path
+          const redirectPath =
+            data.user.role === "admin" ? "/admin" : "/";
+
+          // Show welcome screen for 3 seconds, then navigate
+          setShowWelcome(true);
+          console.log(">>> will screen show:",showWelcome)
+
+          setTimeout(() => {
+            navigate(redirectPath, { replace: true });
+          }, 3000);
+
+      } catch (error) {
+        console.error(">>>> failed in catch box on LoginPage:", error);  
+        setError("❌ Network error: backend not reachable.");
+        setIsLoading(false);
+      }
+  }
+
+  if (showWelcome) {
+    return <WelcomeScreen />;
+  }
 
 
   /* ---------------- JSX RETURN ---------------- */
@@ -601,18 +631,19 @@ function LoginPage() {
               </div>
             )}
 
-            <Button 
-              type="submit" 
-              className="w-full h-12 text-base font-medium" 
-              size="lg" 
+            <HoverBorderGradient
+              type="submit"
               disabled={isLoading}
+              containerClassName="mx-auto w-64"
+              className="text-base font-medium py-3 px-6"
+              duration={4}
             >
               {isLoading ? "Signing in..." : "Log in"}
-            </Button>
+            </HoverBorderGradient>
           </form>
 
           {/* Social Login */}
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <Button 
               variant="outline" 
               className="w-full h-12 bg-background border-border/60 hover:bg-accent"
@@ -621,7 +652,7 @@ function LoginPage() {
               <Mail className="mr-2 size-5" />
               Log in with Google
             </Button>
-          </div>
+          </div> */}
 
           {/* Sign Up Link */}
           <div className="text-center text-sm text-muted-foreground mt-8">

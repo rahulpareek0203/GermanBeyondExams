@@ -20,6 +20,18 @@ app.use("/api", authRouter)   //it basically creates a route called "auth" where
 import adminRoutes from "./routes/adminRoutes.js";
 app.use("/api", adminRoutes)
 
+// this one is for creating or checking the status of request from student side
+import enrollmentRoutes from "./routes/enrollmentRoutes.js"
+app.use("/api/enrollments", enrollmentRoutes)
+
+// this one is for managing and seeing all requests from admin side which should not be accessible by student
+import adminEnrollments from "./routes/adminRoutes/adminEnrollments.js"
+app.use("/api/admin/enrollments", adminEnrollments)
+
+// This one is for both admin and students to access profile info common route
+import profileRoutes from "./routes/ProfileRoutes.js"
+app.use("/api", profileRoutes);
+
 
 
 

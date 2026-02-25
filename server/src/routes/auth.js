@@ -97,14 +97,15 @@ router.post("/login", async (req, res) => {
     const result = await pool.query(query, [cleanEmail]);
 
     if (result.rows.length === 0) {
+      console.log(">>> message from backend auth.js", "Invalid email or password")
       return res.status(401).json({
         ok: false,
-        message: "Invalid email or password"
+        message: "Email does not Exist !!!"
       });
     }
 
     const user = result.rows[0];
-    console.log(">>>> Message from Backend (auth,js):", user.full_name, user.role)
+    console.log(">>>> Message from Backend (auth.js):", user.full_name, user.role)
 
     // Compare password
     const isMatch = await bcrypt.compare(password, user.password_hash);
@@ -125,7 +126,7 @@ router.post("/login", async (req, res) => {
         role: user.role
       },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: "1h" }
     );
     console.log(">>>> JWT Token from backend (auth,js):", token)
 

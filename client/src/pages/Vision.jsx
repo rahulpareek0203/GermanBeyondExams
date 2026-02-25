@@ -9,12 +9,16 @@ import "../styles/vision.css";
 // ==============================
 import { LiquidMetalButton } from "@/components/ui/liquid-metal";
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 
 // ======================================================
 // Vision Page Component
 // ======================================================
 export default function Vision() {
+  
+  const navigate = useNavigate();
+
   return (
     <main className="vision section">
       <div className="container vision__container">
@@ -98,78 +102,91 @@ export default function Vision() {
 
 
         {/* ======================================================
-            FOUNDER STORY SECTION
-            Personal motivation behind building the platform
+            MANIFESTO SECTION
         ====================================================== */}
-        <section className="vision__section">
-          <h2 className="vision__heading">Why I Built This</h2>
+        <section className="vision__story">
 
-          <p className="vision__paragraph">
-            As a student navigating life in Germany, I saw a gap between
-            passing exams and actually speaking with confidence. Many learners
-            prepare intensively for tests but struggle in daily interactions,
-            job interviews, or workplace discussions.
-          </p>
+          <h2 className="story__main-title">Why I Built This</h2>
 
-          <p className="vision__paragraph">
-            I wanted to create something structured, practical, and honest —
-            a system that trains real communication, not just exam patterns.
-          </p>
+          <div className="story__grid">
+
+            <div className="story__block story__block--highlight">
+              <span className="story__label">THE PROBLEM</span>
+              <h3>Certificates ≠ Confidence</h3>
+              <p>
+                Many learners pass exams but struggle in real conversations,
+                interviews, and workplace discussions.
+              </p>
+            </div>
+
+            <div className="story__block story__block--highlight">
+              <span className="story__label">THE REALIZATION</span>
+              <h3>Something Was Missing</h3>
+              <p>
+                The system prepares students for tests — not for life in Germany.
+                Speaking is delayed. Patterns are memorised. Confidence is never built.
+              </p>
+            </div>
+
+            <div className="story__block story__block--highlight">
+              <span className="story__label">THE DECISION</span>
+              <h3>Build It Differently</h3>
+              <p>
+                I created a structured, practical system focused on real communication —
+                not just exam patterns.
+              </p>
+            </div>
+
+          </div>
+
         </section>
 
 
 
         {/* ======================================================
-            PHILOSOPHY SECTION
-            Core values of the platform
+            PHILOSOPHY SECTION – Floating Pillars
         ====================================================== */}
-        <section className="vision__section">
-          <h2 className="vision__heading">Our Philosophy</h2>
+        <section className="vision__philosophy">
+          <h2>Our Philosophy</h2>
 
-          <ul className="vision__list">
-            <li>✔ Communication over perfection</li>
-            <li>✔ Consistency over cramming</li>
-            <li>✔ Real-life scenarios over artificial exercises</li>
-            <li>✔ Structured routine over random motivation</li>
+          <ul>
+            <li>Communication over perfection</li>
+            <li>Consistency over cramming</li>
+            <li>Real-life scenarios over artificial exercises</li>
+            <li>Structured routine over random motivation</li>
           </ul>
         </section>
 
 
 
         {/* ======================================================
-            METHOD SECTION
-            5-Step structured learning framework
+            METHOD SECTION – Timeline Journey
         ====================================================== */}
-        <section className="vision__section">
-          <h2 className="vision__heading">The Method</h2>
+        <section className="vision__timeline">
+          <h2>The Method</h2>
 
           <div className="vision__method">
 
-            {/* Step 1 */}
             <div>
               <h3>1. Learn</h3>
               <p>Understand grammar in context, not isolation.</p>
             </div>
 
-            {/* Step 2 */}
             <div>
               <h3>2. Practice</h3>
               <p>Apply immediately with guided exercises.</p>
             </div>
 
-            {/* Step 3 */}
             <div>
               <h3>3. Speak</h3>
               <p>Simulate real-life situations and conversations.</p>
             </div>
 
-            {/* Step 4 */}
             <div>
               <h3>4. Reflect</h3>
               <p>Identify mistakes and improve deliberately.</p>
             </div>
 
-            {/* Step 5 */}
             <div>
               <h3>5. Repeat</h3>
               <p>Build fluency through consistent daily structure.</p>
@@ -177,6 +194,10 @@ export default function Vision() {
 
           </div>
         </section>
+
+
+
+        
 
 
 
@@ -196,6 +217,7 @@ export default function Vision() {
               colorBack: "#3b82f6",
               colorTint: "#93c5fd",
             }}
+            onClick={() => navigate("/")}
           >
             Explore Courses
           </LiquidMetalButton>

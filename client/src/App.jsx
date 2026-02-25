@@ -10,22 +10,26 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Vision from "./pages/Vision";
 import Evolution from "./pages/Evolution";
+import ProfileInfoPage from "./pages/commonSpace/ProfileInfo";
 
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import StudentDashboard from "./pages/StudentDashboard";
+
 
 import { AuthProvider } from "./context/AuthContext";
+import RoleRoute from "./components/RoleRoute";
+import AdminLayout from "./layouts/AdminLayout";
+import StudentLayout from "./layouts/StudentLayout";
+import Requests from "./pages/admin/Requests";
 
 
 export default function App() {
   
   return (
 
-    <AuthProvider>
-        <BrowserRouter>
+    <BrowserRouter>
+        <AuthProvider>
             <Routes>
               <Route element={<SiteLayout />}>
-
               
                 <Route index element={<Home />} />
                 <Route path="/login" element={<Login />} />
@@ -34,14 +38,42 @@ export default function App() {
                 <Route path="/vision" element={<Vision />} />
                 <Route path="/evolution" element={<Evolution />} />
 
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="/dashboard" element={<StudentDashboard />} />
+                {/* ================= STUDENT AREA ================= */}
+                <Route
+                  path="/dashboard"
+                  element={
+                    <RoleRoute allowedRoles={["student", "admin"]}>
+                      <StudentLayout />
+                    </RoleRoute>
+                  }
+                >
+                  {/* Student nested routes */}
+                  {/* <Route index element={<StudentDashboard />} /> */}
+                  <Route path="profile" element={<ProfileInfoPage />} />
+                </Route>
+
+                {/* ================= ADMIN AREA ================= */}
+                <Route
+                  path="/admin"
+                  element={
+                    <RoleRoute allowedRoles={["admin"]}>
+                      <AdminLayout />
+                    </RoleRoute>
+                  }
+                >
+                  {/* Routes for Admin Dashboard features */}
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="requests" element={<Requests />} />
+                  <Route path="profile" element={<ProfileInfoPage />} />
+
+                </Route>
+
 
               </Route>
             </Routes>
-        </BrowserRouter>
+        </AuthProvider>
 
-    </AuthProvider>
+    </BrowserRouter>
     
 
   
