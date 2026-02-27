@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { apiFetch } from "@/utils/apiFetch";
 import "./testimonial.css";
+import { useNavigate } from "react-router-dom";
 
 export default function TestimonialsSection() {
   const { user, logout } = useAuth();
@@ -11,6 +12,8 @@ export default function TestimonialsSection() {
   const [review, setReview] = useState("");
   const [existingReview, setExistingReview] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const validateInstagram = (value) => {
     const regex = /^@?[a-zA-Z0-9._]+$/;
@@ -130,11 +133,16 @@ export default function TestimonialsSection() {
 
       {user ? (
         <button onClick={() => setIsModalOpen(true)}>
-          {existingReview ? "Edit Your Review" : "Write a Review"}
+            {existingReview ? "Edit Your Review" : "Write a Review"}
         </button>
-      ) : (
-        <p>Please login to write a review.</p>
-      )}
+        ) : (
+        <button
+            onClick={() => navigate("/login")}
+            className="px-5 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition"
+        >
+            Login to Write a Review
+        </button>
+        )}
 
       {/* MODAL */}
       {isModalOpen && (
