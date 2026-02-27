@@ -70,7 +70,7 @@ export default function CommonProblems() {
 
         {/* Center */}
         <div className="center-circle">
-          <div className="avatar">
+          <div className="avatar-thinking">
             <img src={thinkingImg} alt="Thinking person" />
           </div>
         </div>

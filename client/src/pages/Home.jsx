@@ -4,6 +4,8 @@ import CommonProblems from "@/components/home/CommonProblems";
 import CourseSection from "@/components/home/CourseSection";
 import DarkVeil from "@/components/ui/DarkVeilBackground";
 import WhyGermanFeelsHard from "@/components/home/WhyGermanFeelsHard";
+import TestimonialSection from "@/components/testimonials/TestimonialsSection";
+import Reviews from "@/components/testimonials/reviews";
 import "../styles/home.css"
 
 
@@ -25,6 +27,11 @@ export default function Home() {
         <CommonProblems />
         <WhyGermanFeelsHard />
         <CourseSection />
+        
+        
+        <TestimonialSection />
+        <Reviews />
+
       </div>
     </div>
   );

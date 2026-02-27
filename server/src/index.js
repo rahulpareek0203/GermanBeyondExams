@@ -13,6 +13,14 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 
+// Health check route for UptimeRobot
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
+});
 
 import authRouter from "./routes/auth.js";
 app.use("/api", authRouter)   //it basically creates a route called "auth" where register and login can be added
@@ -31,6 +39,9 @@ app.use("/api/admin/enrollments", adminEnrollments)
 // This one is for both admin and students to access profile info common route
 import profileRoutes from "./routes/ProfileRoutes.js"
 app.use("/api", profileRoutes);
+
+import reviewRoutes from "./routes/reviewRoutes.js"
+app.use("/api/reviews", reviewRoutes);
 
 
 
