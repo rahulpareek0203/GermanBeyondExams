@@ -13,12 +13,19 @@ export default function TestimonialsSection() {
   const [existingReview, setExistingReview] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const MAX_WORDS = 50;   
+  const MAX_CHARS = 500;  // optional extra safety
+
   const navigate = useNavigate();
 
   const validateInstagram = (value) => {
     const regex = /^@?[a-zA-Z0-9._]+$/;
     return regex.test(value);
   };
+
+  const countWords = (text) => {
+    return text.trim().split(/\s+/).filter(Boolean).length;
+    };
 
   /* =========================
      CHECK IF USER HAS REVIEW
@@ -129,73 +136,89 @@ export default function TestimonialsSection() {
 
   return (
     <section className="testimonials-section">
-      <h2>Do you have something for me?</h2>
+        <h1 className="text-4xl font-bold text-white">
+          What our students say
+        </h1>
+        <p className="text-gray-400 mt-4 mb-4">
+          Real feedback from real learners.
+        </p>
 
-      {user ? (
-        <button onClick={() => setIsModalOpen(true)}>
-            {existingReview ? "Edit Your Review" : "Write a Review"}
-        </button>
-        ) : (
-        <button
-            onClick={() => navigate("/login")}
-            className="px-5 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition"
-        >
-            Login to Write a Review
-        </button>
+        {user ? (
+            <button className="review-btn" onClick={() => setIsModalOpen(true)}>
+                {existingReview ? "Edit Your Review" : "Write a Review"}
+            </button>
+            ) : (
+            <button
+                onClick={() => navigate("/login")}
+                className="px-5 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition"
+            >
+                Login to Write a Review
+            </button>
         )}
 
       {/* MODAL */}
-      {isModalOpen && (
+        {isModalOpen && (
         <div className="modal-overlay">
-          <div className="modal-content">
+            <div className="modal-content">
             <button
-              className="close-btn"
-              onClick={() => setIsModalOpen(false)}
+                className="close-btn"
+                onClick={() => setIsModalOpen(false)}
             >
-              ✕
+                ✕
             </button>
 
             <form className="review-form" onSubmit={handleSubmit}>
-              <h3>
+                <h3>
                 {existingReview ? "Edit Your Review" : "Write a Review"}
-              </h3>
+                </h3>
 
-              <div>
+                <div className="form-group">
                 <label>Name</label>
                 <input value={user?.full_name || ""} disabled />
-              </div>
+                </div>
 
-              <div>
+                <div className="form-group">
                 <label>Instagram Handle</label>
                 <input
-                  placeholder="@yourusername"
-                  value={instagram}
-                  onChange={(e) => setInstagram(e.target.value)}
-                  required
+                    placeholder="@yourusername"
+                    value={instagram}
+                    onChange={(e) => setInstagram(e.target.value)}
+                    required
                 />
-              </div>
+                </div>
 
-              <div>
+                <div className="form-group textarea-wrapper">
                 <label>Your Review</label>
-                <textarea
-                  placeholder="Write your experience..."
-                  value={review}
-                  onChange={(e) => setReview(e.target.value)}
-                  required
-                />
-              </div>
 
-              <button type="submit" disabled={loading}>
+                <textarea
+                    placeholder="Write your experience..."
+                    value={review}
+                    maxLength={MAX_CHARS}
+                    onChange={(e) => {
+                    const text = e.target.value;
+                    if (countWords(text) <= MAX_WORDS) {
+                        setReview(text);
+                    }
+                    }}
+                    required
+                />
+
+                <div className="word-counter">
+                    {countWords(review)} / {MAX_WORDS} words
+                </div>
+                </div>
+
+                <button type="submit" disabled={loading}>
                 {loading
-                  ? "Processing..."
-                  : existingReview
-                  ? "Update Review"
-                  : "Submit Review"}
-              </button>
+                    ? "Processing..."
+                    : existingReview
+                    ? "Update Review"
+                    : "Submit Review"}
+                </button>
             </form>
-          </div>
+            </div>
         </div>
-      )}
+        )}
     </section>
   );
 }

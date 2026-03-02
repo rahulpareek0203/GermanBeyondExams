@@ -20,6 +20,9 @@ import RoleRoute from "./components/RoleRoute";
 import AdminLayout from "./layouts/AdminLayout";
 import StudentLayout from "./layouts/StudentLayout";
 import Requests from "./pages/admin/Requests";
+import StudentA1 from "./pages/student/StudentMaterials";
+import Courses from "./pages/admin/Courses";
+import ManageCourse from "./pages/admin/ManageCourse";
 
 
 export default function App() {
@@ -37,7 +40,6 @@ export default function App() {
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/vision" element={<Vision />} />
                 <Route path="/evolution" element={<Evolution />} />
-
                 {/* ================= STUDENT AREA ================= */}
                 <Route
                   path="/dashboard"
@@ -47,10 +49,21 @@ export default function App() {
                     </RoleRoute>
                   }
                 >
-                  {/* Student nested routes */}
-                  {/* <Route index element={<StudentDashboard />} /> */}
+                  
                   <Route path="profile" element={<ProfileInfoPage />} />
+                  <Route path="resources" element={<StudentA1 />} />
                 </Route>
+
+                {/* <Route
+                  path="/dashboard"
+                  element={
+                    <StudentLayout />
+                  }
+                >
+                  
+                  <Route path="profile" element={<ProfileInfoPage />} />
+                  <Route path="resources" element={<StudentA1 />} />
+                </Route> */}
 
                 {/* ================= ADMIN AREA ================= */}
                 <Route
@@ -65,7 +78,8 @@ export default function App() {
                   <Route index element={<AdminDashboard />} />
                   <Route path="requests" element={<Requests />} />
                   <Route path="profile" element={<ProfileInfoPage />} />
-
+                  <Route path="courses" element={<Courses />}/>
+                  <Route path="courses/:courseId" element={<ManageCourse />} />
                 </Route>
 
 

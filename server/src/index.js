@@ -43,6 +43,15 @@ app.use("/api", profileRoutes);
 import reviewRoutes from "./routes/reviewRoutes.js"
 app.use("/api/reviews", reviewRoutes);
 
+import courseRoutes from "./routes/adminRoutes/courseRoutes.js";
+import materialRoutes from "./routes/adminRoutes/materialRoutes.js";
+
+app.use("/api/admin/courses", courseRoutes);
+app.use("/api/admin/materials", materialRoutes);
+
+import studentCourseRoutes from "./routes/studentRoutes/studentCourseRoutes.js"
+app.use("/api/student/courses", studentCourseRoutes)
+
 
 
 

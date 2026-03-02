@@ -116,8 +116,8 @@ export default function Navbar() {
                       Settings
                     </button>
 
-                    <button >
-                      Plan
+                    <button onClick={() => navigate("/dashboard")}>
+                      Dashboard
                     </button>
 
                     <button >

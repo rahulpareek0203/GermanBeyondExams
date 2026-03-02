@@ -1,0 +1,120 @@
+/* ========================= */
+/* MAIN LAYOUT */
+/* ========================= */
+
+.student-layout {
+  display: flex;
+  height: calc(100vh - 70px); /* full height below navbar */
+  background: radial-gradient(circle at 20% 20%, #1e1b4b, #0f172a 40%);
+  position: relative;
+}
+
+/* Glow layer */
+.student-layout::before {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.25), transparent 70%);
+  top: -200px;
+  left: -200px;
+  animation: floatGlow 10s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+@keyframes floatGlow {
+  from { transform: translate(0px, 0px); }
+  to { transform: translate(60px, 60px); }
+}
+
+/* ========================= */
+/* MAIN CONTENT */
+/* ========================= */
+
+.student-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* CRITICAL */
+  overflow: hidden;
+  padding: 20px 30px 10px 30px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================= */
+/* MOBILE HEADER (hidden desktop) */
+/* ========================= */
+
+.mobile-header {
+  display: none;
+}
+
+.hamburger {
+  display: none;
+}
+
+/* ========================= */
+/* MOBILE */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+  .student-logo {
+    visibility: hidden;
+  }
+
+  .student-layout {
+    flex-direction: column;
+    height: calc(100dvh - 60px);
+  }
+
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    flex-shrink: 0;
+    z-index: 1100;
+  }
+
+  .mobile-title {
+    font-size: 20px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #8b5cf6, #6366f1, #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hamburger {
+    display: block;
+    background: #8b5cf6;
+    border: none;
+    color: white;
+    font-size: 14px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .student-main {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0px 16px 16px 16px;
+  }
+
+  .student-sidebar {
+    position: fixed;
+    top: 70px;
+    left: -100%;
+    width: 270px;
+    height: calc(100vh - 70px);
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+
+  .student-sidebar.open {
+    left: 0;
+  }
+}

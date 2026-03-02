@@ -55,7 +55,7 @@ export default function EnrollStepperModal({ isOpen, onClose, onConfirm }) {
           ))}
         </div>
 
-        <div className="modal-content">
+        <div className="modal-content-course">
 
           {/* STEP 1 */}
           {step === 1 && (

@@ -1,11 +1,12 @@
 import { NavLink } from "react-router-dom";
+import "./StudentSidebar.css"
 
-export default function StudentSidebar() {
+export default function StudentSidebar({ isOpen, setIsOpen }) {
   return (
-    <div className="admin-sidebar">
-      <h2 className="admin-logo">Student Panel</h2>
+    <div className={`student-sidebar ${isOpen ? "open" : ""}`}>
+      <h2 className="student-logo">Student Panel</h2>
 
-      <nav>
+      <nav onClick={() => setIsOpen(false)}> 
         <NavLink to="/dashboard" end>
           Dashboard
         </NavLink>
@@ -14,8 +15,8 @@ export default function StudentSidebar() {
           My Courses
         </NavLink>
 
-        <NavLink to="/dashboard/enrollments">
-          Enrollments
+        <NavLink to="/dashboard/resources">
+          Resources
         </NavLink>
 
         <NavLink to="/dashboard/profile">

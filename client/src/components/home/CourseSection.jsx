@@ -29,6 +29,7 @@ export default function CourseSection() {
     const token = localStorage.getItem("token")
     const { user, logout } = useAuth();
     const [showModal, setShowModal] = useState(false);
+    const registrationClosed = true; // change to false when open
 
     const [status, setStatus] = useState(null);
     // null | pending | approved | rejected | loading
@@ -36,7 +37,7 @@ export default function CourseSection() {
     const [checking, setChecking] = useState(true);
 
     const totalSeats = 14;
-    const filledSeats = 13;
+    const filledSeats = 14;
 
     const fillPercentage = (filledSeats / totalSeats) * 100;
 
@@ -192,7 +193,7 @@ export default function CourseSection() {
                                 {/* Time */}
                                 <p className="time">
                                     <Clock size={18} />
-                                    <span>Mon - Fri • 3:00 - 6:30 PM CET (Berlin)</span>
+                                    <span>Mon - Fri • 3:00 - 6:00 PM CET (Berlin)</span>
                                 </p>
 
                                 {/* Price */}
@@ -205,20 +206,27 @@ export default function CourseSection() {
                                 {/* Button */}
                                 <button
                                     className="join-btn"
-                                    onClick={() => setShowModal(true)}
+                                    onClick={() => {
+                                        if (!registrationClosed) {
+                                        setShowModal(true);
+                                        }
+                                    }}
                                     disabled={
+                                        registrationClosed ||
                                         status === "pending" ||
                                         status === "approved" ||
                                         status === "loading"
                                     }
                                     >
-                                    {status === "pending"
+                                    {registrationClosed
+                                        ? "Registration Closed"
+                                        : status === "pending"
                                         ? "Request Pending"
                                         : status === "approved"
                                         ? "Enrolled"
                                         : status === "loading"
                                         ? "Processing..."
-                                        : "Join A1 Batch"}
+                                        : "Join Now"}
                                 </button>
 
                             </div>
