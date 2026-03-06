@@ -21,9 +21,7 @@ export default function UpcomingBatches() {
           <a href="#courses" className="card batch-card batch-card--clickable">
             <div className="batch-card__header">
               <div className="batch-card__title">A1 Beginner</div>
-              <div className="batch-card__badge badge--open">
-                Registration Open
-              </div>
+              <div className="batch-card__badge">Coming Soon</div>
             </div>
             <div className="card__text">
               Perfect for beginners starting their German journey.

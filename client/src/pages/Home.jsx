@@ -10,10 +10,12 @@ import "../styles/home.css"
 
 
 export default function Home() {
+  const randomHue = Math.floor(Math.random() * 1000);
+  
   return (
     <div className="home-wrapper">
       <DarkVeil
-        hueShift={0}
+        hueShift={randomHue}
         noiseIntensity={0}
         scanlineIntensity={0}
         speed={0.7}
