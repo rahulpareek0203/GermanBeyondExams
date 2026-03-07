@@ -101,7 +101,7 @@ project-root
 ### 1 Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/german-beyond-exams.git
+git clone https://github.com/rahulpareek0203/german-beyond-exams.git
 ```
 
 ### 2 Navigate to the project
@@ -177,5 +177,3 @@ npm start
 ---
 
 ⭐ If you like this project, consider giving it a star on GitHub.
-
-That version will make your repo look **like a real startup product**, not a student project.
