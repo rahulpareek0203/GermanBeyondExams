@@ -1,5 +1,5 @@
 import React from "react";
-import "./socialConnect.css";
+import "./SocialConnect.css";
 
 export default function SocialConnect() {
   return (
