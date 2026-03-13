@@ -6,6 +6,7 @@ import DarkVeil from "@/components/ui/DarkVeilBackground";
 import WhyGermanFeelsHard from "@/components/home/WhyGermanFeelsHard";
 import TestimonialSection from "@/components/testimonials/TestimonialsSection";
 import Reviews from "@/components/testimonials/reviews";
+import ConnectMe from "@/components/connectMe";
 import "../styles/home.css"
 
 
@@ -33,6 +34,9 @@ export default function Home() {
         
         <TestimonialSection />
         <Reviews />
+        <ConnectMe />
+
+        
 
       </div>
     </div>

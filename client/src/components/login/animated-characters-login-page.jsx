@@ -1,5 +1,5 @@
 "use client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext"; // or wherever your auth is
 
 import { useState, useEffect, useRef } from "react";
@@ -172,6 +172,9 @@ function LoginPage() {
   const [isPurplePeeking, setIsPurplePeeking] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/dashboard";
+  
   const { login } = useAuth();
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -330,16 +333,14 @@ function LoginPage() {
 
           setIsLoading(false);
 
-          // 🔥 Role-based redirect
-          // if (data.user.role === "admin") {
-          //   navigate("/admin", { replace: true });
-          // } else {
-          //   navigate("/dashboard", { replace: true });
-          // }
+          
 
           // Decide redirect path
+          // const redirectPath =
+          //   data.user.role === "admin" ? "/admin" : "/";
+
           const redirectPath =
-            data.user.role === "admin" ? "/admin" : "/";
+            from || (data.user.role === "admin" ? "/admin" : "/dashboard");
 
           // Show welcome screen for 3 seconds, then navigate
           setShowWelcome(true);

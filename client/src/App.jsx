@@ -23,6 +23,7 @@ import Requests from "./pages/admin/Requests";
 import StudentA1 from "./pages/student/StudentMaterials";
 import Courses from "./pages/admin/Courses";
 import ManageCourse from "./pages/admin/ManageCourse";
+import FreeResources from "./pages/FreeResources";
 
 
 export default function App() {
@@ -40,6 +41,17 @@ export default function App() {
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/vision" element={<Vision />} />
                 <Route path="/evolution" element={<Evolution />} />
+                
+                {/* ================= COMMON PROTECTED AREA ================= */}
+
+                <Route
+                  path="/free-resources"
+                  element={
+                    <RoleRoute allowedRoles={["student", "admin"]}>
+                      <FreeResources />
+                    </RoleRoute>
+                  }
+                />
                 {/* ================= STUDENT AREA ================= */}
                 <Route
                   path="/dashboard"

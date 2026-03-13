@@ -219,7 +219,7 @@ export default function CourseSection() {
                                     }
                                     >
                                     {registrationClosed
-                                        ? "Registration Closed"
+                                        ? "Registration Closed, Wait for New Batch"
                                         : status === "pending"
                                         ? "Request Pending"
                                         : status === "approved"

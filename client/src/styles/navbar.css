@@ -1,13 +1,16 @@
+/* ================================
+   NAVBAR
+================================ */
+
 .navbar{
   position: sticky;
   top: 0;
   z-index: 100;
+  height: 64px;
 
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 
-  /* Dark glass background */
-  /* Slightly brighter left side for logo visibility */
   background: linear-gradient(
     to right,
     rgba(149, 149, 202, 0.9) 0%,
@@ -20,6 +23,7 @@
   box-shadow:
     0 8px 30px rgba(0, 0, 0, 0.45);
 }
+
 .navbar::before {
   content: "";
   position: absolute;
@@ -38,7 +42,9 @@
   opacity: 0.7;
 }
 
-
+/* ================================
+   NAV LINKS
+================================ */
 
 .nav__link {
   text-decoration: none;
@@ -71,13 +77,17 @@
 
   transition: width 0.3s ease;
 }
+
 .nav__link:hover::after {
   width: 100%;
 }
 
+/* ================================
+   NAVBAR LAYOUT
+================================ */
 
 .navbar__inner{
-  height: 64px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -91,7 +101,7 @@
 }
 
 .brand__logo {
-  height: 60px;      /* adjust size */
+  height: 60px;
   width: auto;
   object-fit: contain;
   transition: transform 0.3s ease;
@@ -106,11 +116,9 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* Subtle hover effect */
 .brand:hover .brand__logo {
   transform: scale(1.05);
 }
-
 
 .nav{
   display: flex;
@@ -121,13 +129,16 @@
 .nav a{
   font-weight: 600;
   color: rgba(255, 255, 255, 0.75);
-  opacity: 1;
   transition: color 0.3s ease;
 }
 
 .nav a:hover{
   color: #ffffff;
 }
+
+/* ================================
+   BUTTONS
+================================ */
 
 .btn {
   display: inline-flex;
@@ -150,37 +161,14 @@
 
   border: none;
   color: white;
-
-  transition: all 0.3s ease;
 }
 
-/* Hover becomes subtle / glass */
 .btn-login:hover {
-  background: transparent;   /* removes background */
+  background: transparent;
   color: #ffffff;
   border: 1px solid rgba(255,122,24,0.6);
-  box-shadow: none;          /* optional, removes glow */
 }
 
-
-/* Primary button */
-.btn--primary{
-  background: linear-gradient(
-    90deg,
-    #ff7a18,
-    #ff3d00,
-    #ff0080
-  );
-  color: #ffffff;
-  border: none;
-}
-
-.btn--primary:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(255, 0, 128, 0.4);
-}
-
-/* Secondary button */
 .btn--secondary{
   background: transparent;
   border-color: rgba(255,255,255,0.2);
@@ -191,25 +179,9 @@
   background: rgba(255,255,255,0.05);
 }
 
-
-@media (max-width: 720px){
-  .nav{
-    gap: 8px;
-  }
-  
-   .brand__text {
-    display: none;
-  }
-}
-
-
-/* =========================
-   Profile Card
-========================= */
-
-/* ===============================
-   PROFILE HEADER SECTION
-=============================== */
+/* ================================
+   PROFILE HEADER
+================================ */
 
 .nav-profile-header {
   display: flex;
@@ -218,13 +190,9 @@
   gap: 14px;
 }
 
-/* Avatar circle */
 .avatar_navbar {
   width: 44px;
   height: 44px;
-  min-width: 44px;     /* important */
-  min-height: 44px;    /* important */
-  flex-shrink: 0;      /* prevents shrinking */
   border-radius: 50%;
 
   display: flex;
@@ -244,11 +212,10 @@
   box-shadow: 0 0 18px rgba(255, 77, 77, 0.4);
 }
 
-/* User text */
 .user-info {
   display: flex;
   flex-direction: column;
-  min-width: 0;   /* important for flex truncation */
+  min-width: 0;
 }
 
 .user-name {
@@ -269,12 +236,11 @@
 
 .profile-wrapper {
   position: relative;
-  display: inline-block;
 }
 
-/* =============================
-   FUTURISTIC FLOATING PANEL
-============================= */
+/* ================================
+   PROFILE DROPDOWN
+================================ */
 
 .profile-dropdown {
   position: absolute;
@@ -305,28 +271,6 @@
   z-index: 1000;
 }
 
-/* Soft glowing top edge */
-.profile-dropdown::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 20%;
-  width: 60%;
-  height: 3px;
-
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #ff4d4d,
-    #ff7a18,
-    transparent
-  );
-
-  opacity: 0.8;
-  border-radius: 50px;
-}
-
-/* Animation */
 @keyframes dropdownEnter {
   from {
     opacity: 0;
@@ -338,10 +282,6 @@
   }
 }
 
-/* =============================
-   MENU ITEMS
-============================= */
-
 .profile-dropdown button {
   width: 100%;
   padding: 10px 20px;
@@ -352,54 +292,166 @@
   color: #e5e7eb;
   font-size: 14px;
   font-weight: 500;
-  letter-spacing: 0.3px;
 
   cursor: pointer;
   transition: all 0.25s ease;
-  position: relative;
 }
 
-/* Animated left glow bar */
-.profile-dropdown button::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 0%;
-  width: 3px;
-  background: linear-gradient(
-    to bottom,
-    #ff4d4d,
-    #ff7a18
-  );
-  border-radius: 10px;
-  transition: height 0.25s ease;
-}
-
-/* Hover */
 .profile-dropdown button:hover {
   background: rgba(255, 255, 255, 0.04);
   padding-left: 30px;
 }
 
-.profile-dropdown button:hover::before {
-  height: 60%;
-}
-
-/* Divider */
 .dropdown-divider {
   height: 1px;
   margin: 10px 0;
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* Logout special style */
-.logout-option {
-  color: #ff4d4d;
-  font-weight: 600;
+/* =================================
+   MOBILE HAMBURGER
+================================= */
+
+.hamburger_navbar{
+  display:flex;
+
+  width:40px;
+  height:40px;
+
+  background: linear-gradient(
+    135deg,
+    #ff4d4d,
+    #ff7a18
+  );
+  
+  border-radius: 12px;
+  border:1px solid rgba(255,255,255,0.15);
+  padding:0;
+
+  cursor:pointer;
+
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:6px;
+
+  /* glow */
+  box-shadow:
+    0 4px 12px rgba(255,77,77,0.35),
+    inset 0 1px 2px rgba(255,255,255,0.2);
 }
 
-.logout-option:hover {
-  background: rgba(255, 77, 77, 0.08);
+.line_navbar{
+  width:24px;
+  height:2px;
+  background:white;
+  border-radius:2px;
+
+  transition: all 0.35s ease;
+}
+
+.hamburger_navbar.active .line_navbar:nth-child(1){
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger_navbar.active .line_navbar:nth-child(2){
+  opacity:0;
+}
+
+.hamburger_navbar.active .line_navbar:nth-child(3){
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* =================================
+   MOBILE SIDEBAR
+================================= */
+
+.mobile-sidebar{
+  position: fixed;
+  top: 64px;
+  right: -100%;
+  width: 280px;
+  height: calc(100vh - 64px);
+
+  padding: 20px;
+
+  background: linear-gradient(
+    145deg,
+    rgba(20,20,30,0.96),
+    rgba(35,35,50,0.96)
+  );
+
+  backdrop-filter: blur(20px);
+
+  border-left: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    -20px 0 60px rgba(0,0,0,0.4);
+
+  transition: right 0.35s ease;
+  
+
+  z-index: 999;
+}
+
+.mobile-sidebar.open{
+  right: 0;
+}
+
+.mobile-sidebar a,
+.mobile-sidebar button{
+  display:block;
+  width:100%;
+
+  padding:12px 0;
+
+  text-align:center;
+  font-size:15px;
+  font-weight:500;
+
+  color:rgba(255,255,255,0.85);
+
+  background:none;
+  border:none;
+
+  cursor:pointer;
+  transition: all 0.25s ease;
+}
+
+.mobile-sidebar a:hover,
+.mobile-sidebar button:hover{
+  color: white;
+}
+
+.mobile-sidebar .user-action{
+  color:#f18a40;
+  font-weight:600;
+}
+
+
+/* =================================
+   RESPONSIVE
+================================= */
+@media (min-width:769px){
+
+  .hamburger_navbar{
+    display:none;
+  }
+
+}
+
+@media (max-width: 768px){
+
+  .nav{
+    display: none;
+  }
+
+  .hamburger{
+    display: flex;
+  }
+
+  .brand__text{
+    display: none;
+  }
+
 }

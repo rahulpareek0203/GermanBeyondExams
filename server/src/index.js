@@ -52,6 +52,9 @@ app.use("/api/admin/materials", materialRoutes);
 import studentCourseRoutes from "./routes/studentRoutes/studentCourseRoutes.js"
 app.use("/api/student/courses", studentCourseRoutes)
 
+import freeResourcesRoutes from "./routes/freeResourcesRoutes.js";
+app.use("/api", freeResourcesRoutes);
+
 
 
 
