@@ -53,17 +53,23 @@
   -webkit-text-fill-color: transparent;
 }
 
-.close-btn {
-  background: none;
+.close-btn--modal {
+  background: rgba(255, 255, 255, 0.05);
   border: none;
-  font-size: 26px;
-  color: #8d6e6e;
+  font-size: 22px;
+  color: #fcb251;              /* ✅ visible */
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   cursor: pointer;
-  transition: 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
 }
 
-.close-btn:hover {
-  color: #fcb251;
+.close-btn--modal:hover {
+  background: rgba(252, 178, 81, 0.15);
 }
 
 
@@ -285,7 +291,8 @@
 .whatsapp-btn {
   display: block;
   text-align: center;
-  padding: 14px;
+  margin: 60px auto 0;
+  padding: 14px 28px;
   border-radius: 14px;
   font-weight: 600;
   text-decoration: none;

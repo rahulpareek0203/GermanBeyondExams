@@ -64,4 +64,30 @@ router.get("/status/:courseId", authenticate, async (req, res) => {
     }
 })
 
+/*
+  3️⃣ GET APPROVED ENROLLMENT COUNT (for seats)
+*/
+
+router.get("/counts", async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT course_id, COUNT(*) 
+       FROM enrollments
+       WHERE status = 'approved'
+       GROUP BY course_id`
+    );
+
+    const counts = {};
+
+    result.rows.forEach(row => {
+      counts[row.course_id] = parseInt(row.count, 10);
+    });
+
+    res.json(counts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 export default router;

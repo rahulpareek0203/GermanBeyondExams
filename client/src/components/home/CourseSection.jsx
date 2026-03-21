@@ -1,4 +1,5 @@
 import "./CourseSection.css";
+import FeaturesGrid from "../ui/GlowingCards";
 import { LiquidMetalButton } from "@/components/ui/liquid-metal";
 import { ArrowRight } from "lucide-react";
 import {
@@ -17,315 +18,440 @@ import { apiFetch } from "@/utils/apiFetch";
 import { useAuth } from "@/context/AuthContext";
 import EnrollStepperModal from "./EnrollStepperModal";
 
-
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
+const courses = [
+  {
+    id: "d2ec4052-63ca-4528-ac8b-2215e20c4be0",
+    title: "German A1 Batch",
+    subtitle: "Real German starts at A1. Build it right from day one.",
+    startDate: "Starting 6st April",
+    time: "6:30 - 8:30 PM IST",
+    timeGER: "3:00 - 5:00 PM CET",
+    priceEUR: 75,
+    oldPrice: 100,
+    priceINR: 8299,
+    totalSeats: 14,
+  },
+  {
+    id: "1e5b473e-dd23-40e7-a610-6129d608fc12",
+    title: "German A2 Batch",
+    subtitle: "Take your German to the next level with real conversations.",
+    startDate: "Starting 6st April",
+    time: "8:30 - 10:30 PM IST",
+    timeGER: "5:00 - 7:00 PM CET",
+    priceEUR: 99,
+    oldPrice: 120,
+    priceINR: 10999,
+    totalSeats: 14,
+  },
+  {
+    id: "bundle-a1-a2",
+    title: "A1 + A2 Bundle",
+    subtitle: "Complete foundation. From beginner to confident speaker.",
+    startDate: "Starting 6st April",
+    time: "6:30 - 8:30 PM IST",
+    timeGER: "3:00 - 5:00 PM CET",
+    priceEUR: 160,
+    oldPrice: 200,
+    priceINR: 17340,
+    totalSeats: 14,
+  }
+];
 
 export default function CourseSection() {
-    
-    const courseId = "72d75a4f-2dd9-43b4-beef-f70867acab6d";
+  const A1_ID = "d2ec4052-63ca-4528-ac8b-2215e20c4be0";
+  const A2_ID = "1e5b473e-dd23-40e7-a610-6129d608fc12";
+  const EARLY_BIRD_LIMIT = 5;
 
-    const navigate = useNavigate()
-    const token = localStorage.getItem("token")
-    const { user, logout } = useAuth();
-    const [showModal, setShowModal] = useState(false);
-    const registrationClosed = true; // change to false when open
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const { user, logout } = useAuth();
 
-    const [status, setStatus] = useState(null);
-    // null | pending | approved | rejected | loading
+  const [showModal, setShowModal] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const registrationClosed = false;
 
-    const [checking, setChecking] = useState(true);
+  const [seatMap, setSeatMap] = useState({});
+  const [statusMap, setStatusMap] = useState({});
+  const [checking, setChecking] = useState(true);
 
-    const totalSeats = 14;
-    const filledSeats = 14;
+  const totalSeats = 14;
+  const filledSeats = 14;
+  const fillPercentage = (filledSeats / totalSeats) * 100;
 
-    const fillPercentage = (filledSeats / totalSeats) * 100;
+  useEffect(() => {
+    const fetchSeatCounts = async () => {
+      try {
+        const res = await apiFetch("/api/enrollments/counts", {}, logout);
 
-    /*
-    1️⃣ Check enrollment status when component loads
-    */
-    useEffect(() => {
-        if (!token) {
-            setChecking(false);
-            return;
+        if (res && res.ok) {
+          const data = await res.json();
+          setSeatMap(data);
+          console.log(data);
         }
-
-        const fetchStatus = async () => {
-            try {
-            const res = await apiFetch(
-                `/api/enrollments/status/${courseId}`,
-                {},
-                logout
-            );
-
-            if (!res) return; // 401 handled
-
-            if (!res.ok) {
-                setChecking(false);
-                return;
-            }
-
-            const data = await res.json();
-            setStatus(data.status);
-
-            } catch (error) {
-            console.error("Status fetch error:", error);
-            } finally {
-            setChecking(false);
-            }
-        };
-
-        fetchStatus();
-    }, [courseId, token, logout]);
-
-    
-    /*
-        2️⃣ Handle Join Click
-    */
-
-    const handleJoin = async () => {
-        if (!user) {
-            navigate("/login");
-            return;
-        }
-
-        if (status === "pending" || status === "approved") return;
-
-        try {
-            setStatus("loading");
-
-            const res = await apiFetch(
-            "/api/enrollments",
-            {
-                method: "POST",
-                body: JSON.stringify({ courseId }),
-            },
-            logout
-            );
-
-            if (!res) return; // 401 auto handled
-
-            const data = await res.json();
-
-            if (res.ok) {
-                setStatus("pending");
-                alert("Request submitted. Await admin approval");
-                sendMessage();   // 🔥 trigger only on success
-            } else {
-                alert(data.message || "Something went wrong");
-                sendMessage();   // 🔥 trigger only on success
-                setStatus(null);
-            }
-
-        } catch (error) {
-            console.error("Join error:", error);
-            setStatus(null);
-        }
+      } catch (err) {
+        console.error("Seat fetch error:", err);
+      }
     };
 
-    const sendMessage = () => {
-        const message = `
-        Hi Rahul, I would like to reserve my seat for German A1 Batch.
+    fetchSeatCounts();
+  }, []);
 
-        Name: ${user?.full_name || ""}
-        Email: ${user?.email || ""}
-        User ID: ${user?.id || ""}
-        
-        Please share the payment details, as i am ready to become a part of this community.
-        `;
+  useEffect(() => {
+    if (!token) {
+      setChecking(false);
+      return;
+    }
 
-            const whatsappUrl = `https://wa.me/919462715921?text=${encodeURIComponent(message)}`;
+    const fetchAllStatuses = async () => {
+      try {
+        const updates = {};
 
-            window.open(whatsappUrl, "_blank");
+        await Promise.all(
+          courses.map(async (course) => {
+            const res = await apiFetch(
+              `/api/enrollments/status/${course.id}`,
+              {},
+              logout
+            );
+
+            if (res && res.ok) {
+              const data = await res.json();
+              updates[course.id] = data.status;
+            }
+          })
+        );
+
+        setStatusMap(updates);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setChecking(false);
+      }
     };
 
- 
+    fetchAllStatuses();
+  }, [token, logout]);
 
-    return(
-        <section id="courses" className="a1-section">
+  const handleJoin = async (course) => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
 
-            <div className="a1-container">
-                <div className="a1-header">
-                    <h2>Redefining How German Is Learned.</h2>
-                    <p>Not just grammar. Not just rules. Real German for real life in Germany.</p>
-                </div>
+    if (!course) return;
 
-                <div className="a1-layout">
-                    {/* LEFT SIDE – COURSE CARD */}
-                    <div className="a1-left">
-                        
+    if (course.id === "bundle-a1-a2") {
+      await handleBundleJoin();
+      return;
+    }
 
-                        <ElectricBorder
-                            color="#fcb251"
-                            speed={0.6}
-                            chaos={0.06}
-                            borderRadius={38}
-                            >
-                            <div className="a1-card">
+    const currentStatus = statusMap[course.id];
+    console.log("status of enrollment:", currentStatus);
 
-                                {/* Seats */}
-                                <div className="seats-pill">
-                                    <div
-                                    className="seats-fill"
-                                    style={{ width: `${fillPercentage}%` }}
-                                    ></div>
-                                    <span>
-                                    {filledSeats} / {totalSeats} seats filled
-                                    </span>
-                                </div>
+    if (currentStatus === "pending" || currentStatus === "approved") return;
 
-                                {/* Title */}
-                                <h3 className="title">
-                                    German A1 Batch
-                                </h3>
+    try {
+      setStatusMap((prev) => ({
+        ...prev,
+        [course.id]: "loading",
+      }));
 
-                                {/* Subtitle */}
-                                <p className="subtitle">
-                                    Real German starts at A1. Build it right from day one.
-                                </p>
+      const res = await apiFetch(
+        "/api/enrollments",
+        {
+          method: "POST",
+          body: JSON.stringify({ courseId: course.id }),
+        },
+        logout
+      );
 
-                                {/* Date */}
-                                <p className="date">
-                                    <Calendar size={18} />
-                                    <span>Starting 1st March</span>
-                                </p>
+      if (!res) return;
 
-                                {/* Time */}
-                                <p className="time">
-                                    <Clock size={18} />
-                                    <span>Mon - Fri • 3:00 - 6:00 PM CET (Berlin)</span>
-                                </p>
+      const data = await res.json();
 
-                                {/* Price */}
-                                <div className="price-row">
-                                    <span className="old-price">€75</span>
-                                    <span className="price">€50</span>
-                                    <span className="discount">33% OFF</span>
-                                </div>
+      if (res.ok) {
+        setStatusMap((prev) => ({
+          ...prev,
+          [course.id]: "pending",
+        }));
 
-                                {/* Button */}
-                                <button
-                                    className="join-btn"
-                                    onClick={() => {
-                                        if (!registrationClosed) {
-                                        setShowModal(true);
-                                        }
-                                    }}
-                                    disabled={
-                                        registrationClosed ||
-                                        status === "pending" ||
-                                        status === "approved" ||
-                                        status === "loading"
-                                    }
-                                    >
-                                    {registrationClosed
-                                        ? "Registration Closed, Wait for New Batch"
-                                        : status === "pending"
-                                        ? "Request Pending"
-                                        : status === "approved"
-                                        ? "Enrolled"
-                                        : status === "loading"
-                                        ? "Processing..."
-                                        : "Join Now"}
-                                </button>
+        alert("Request submitted. Await admin approval");
+        sendMessage(course);
+      } else {
+        alert(data.message || "Something went wrong");
+        sendMessage(course);
 
-                            </div>
+        setStatusMap((prev) => ({
+          ...prev,
+          [course.id]: null,
+        }));
+      }
+    } catch (error) {
+      console.error("Join error:", error);
+      setStatusMap(null);
+    }
+  };
 
-                        </ElectricBorder>
+  const handleBundleJoin = async () => {
+    const a1 = courses.find((c) => c.title.includes("A1 Batch"));
+    const a2 = courses.find((c) => c.title.includes("A2 Batch"));
+
+    try {
+      const responses = await Promise.all([
+        apiFetch(
+          "/api/enrollments",
+          {
+            method: "POST",
+            body: JSON.stringify({ courseId: a1.id }),
+          },
+          logout
+        ),
+        apiFetch(
+          "/api/enrollments",
+          {
+            method: "POST",
+            body: JSON.stringify({ courseId: a2.id }),
+          },
+          logout
+        ),
+      ]);
+
+      for (let res of responses) {
+        const data = await res.json();
+        console.log("Bundle response:", data);
+
+        if (!res.ok) {
+          alert(data.message || "Error in bundle enrollment");
+          return;
+        }
+      }
+
+      alert("Bundle request submitted!");
+      sendBundleMessage();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const sendMessage = (course) => {
+    const message = `
+Hi Rahul, I would like to reserve my seat for ${course.title}.
+
+Name: ${user?.full_name || ""}
+Email: ${user?.email || ""}
+User ID: ${user?.id || ""}
+
+Please share the payment details, as I am ready to join.
+`;
+
+    const whatsappUrl = `https://wa.me/919462715921?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
+  const sendBundleMessage = () => {
+    const message = `
+Hi Rahul, I would like to reserve my seat for A1 + A2 Bundle.
+
+Name: ${user?.full_name || ""}
+Email: ${user?.email || ""}
+User ID: ${user?.id || ""}
+
+Please share the payment details, as I am ready to join both courses.
+`;
+
+    const whatsappUrl = `https://wa.me/919462715921?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
+  return (
+    <section id="courses" className="a1-section">
+      <div className="a1-container">
+        <div className="a1-header">
+          <h2>Learn German without Articles</h2>
+          <p>
+            Not just grammar. Not just rules. Real German for real life in
+            Germany.
+          </p>
+        </div>
+
+        <div className="a1-layout">
+          <div className="a1-top">
+            {courses.map((course) => {
+              let filledSeats = seatMap[course.id] || 0;
+              let totalSeats = course.totalSeats;
+
+              if (course.id === "bundle-a1-a2") {
+                const a1Filled = seatMap[A1_ID] || 0;
+                const a2Filled = seatMap[A2_ID] || 0;
+                filledSeats = Math.max(a1Filled, a2Filled);
+              }
+
+              const fillPercentage =
+                (filledSeats / totalSeats) * 100;
+              const isFull = filledSeats >= totalSeats;
+
+              const currentStatus = statusMap[course.id];
+
+              const isA1Course = course.id === A1_ID;
+              const isEarlyBird =
+                isA1Course && filledSeats < EARLY_BIRD_LIMIT;
+
+              return (
+                <ElectricBorder
+                  key={course.id}
+                  color={
+                    course.id === "bundle-a1-a2"
+                      ? "#91e720"
+                      : "#fcb251"
+                  }
+                  speed={0.6}
+                  chaos={0.06}
+                  borderRadius={38}
+                >
+                  <div className="a1-card">
+                    
+                    {course.id === A1_ID && isEarlyBird && (
+                      <p className="early-warning">
+                        ⚡ Only{" "}
+                        {EARLY_BIRD_LIMIT - filledSeats} spots
+                        left at this price
+                      </p>
+                    )}
+                    
+                    <div className="seats-pill">
+                      <div
+                        className="seats-fill"
+                        style={{
+                          width: `${fillPercentage}%`,
+                        }}
+                      ></div>
+                      <span>
+                        {filledSeats} / {course.totalSeats} seats
+                        filled
+                      </span>
                     </div>
 
-                    {/* RIGHT SIDE – FEATURES */}
-                    <div className="a1-right">
-                    <div className="a1-features">
-
-                        {/* 1 */}
-                        <div className="a1-feature">
-                        <div className="a1-feature-top">
-                            <div className="a1-feature-icon">
-                            <FiMic />
-                            </div>
-                            <h4>Speak from Day 1</h4>
-                        </div>
-                        <p>
-                            Every class includes active speaking practice so you start communicating immediately.
+                    {filledSeats >
+                      course.totalSeats * 0.7 &&
+                      !isFull && (
+                        <p className="few-left">
+                          ⚠️ Few seats left
                         </p>
-                        </div>
+                      )}
 
-                        {/* 2 */}
-                        <div className="a1-feature">
-                        <div className="a1-feature-top">
-                            <div className="a1-feature-icon">
-                            <FiBookOpen />
-                            </div>
-                            <h4>Grammar Made Logical</h4>
-                        </div>
-                        <p>
-                            Understand patterns and structures clearly instead of memorising random rules.
-                        </p>
-                        </div>
+                    <h3 className="title">{course.title}</h3>
+                    <p className="subtitle">
+                      {course.subtitle}
+                    </p>
 
-                        {/* 3 */}
-                        <div className="a1-feature">
-                        <div className="a1-feature-top">
-                            <div className="a1-feature-icon">
-                            <FiUsers />
-                            </div>
-                            <h4>Small Focused Batches</h4>
-                        </div>
-                        <p>
-                            Limited students per batch to ensure personal attention and direct feedback.
-                        </p>
-                        </div>
+                    <p className="date">
+                      <Calendar size={18} />
+                      <span>{course.startDate}</span>
+                    </p>
 
-                        {/* 4 */}
-                        <div className="a1-feature">
-                        <div className="a1-feature-top">
-                            <div className="a1-feature-icon">
-                            <FiHelpCircle />
-                            </div>
-                            <h4>Weekly Doubt Sessions</h4>
-                        </div>
-                        <p>
-                            Dedicated weekly sessions only for clearing doubts and strengthening concepts.
-                        </p>
-                        </div>
+                    <p className="time">
+                      <Clock size={18} />
+                      <span>
+                        Mon - Fri • {course.time}
+                      </span>
+                    </p>
 
-                        {/* 5 */}
-                        <div className="a1-feature">
-                        <div className="a1-feature-top">
-                            <div className="a1-feature-icon">
-                            <FiMap />
-                            </div>
-                            <h4>Real-Life Scenarios</h4>
-                        </div>
-                        <p>
-                            Practice situations like doctor visits, offices, interviews and daily conversations.
-                        </p>
-                        </div>
+                    
 
-                        {/* 6 */}
-                        <div className="a1-feature">
-                        <div className="a1-feature-top">
-                            <div className="a1-feature-icon">
-                            <FiTrendingUp />
-                            </div>
-                            <h4>Confidence Training</h4>
-                        </div>
-                        <p>
-                            Build fluency, reduce hesitation and gain the confidence to speak naturally.
-                        </p>
-                        </div>
-
-                    </div>
+                    <div className="price-row">
+                      {course.id === A1_ID &&
+                      isEarlyBird ? (
+                        <>
+                          <span className="old-price">
+                            €{course.oldPrice}
+                          </span>
+                          <span className="price">
+                            €{course.priceEUR}
+                          </span>
+                          <span className="discount">
+                            25% OFF
+                          </span>
+                        </>
+                      ) : course.id === A1_ID ? (
+                        <>
+                          <span className="price">
+                            €{course.oldPrice}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="old-price">
+                            €{course.oldPrice}
+                          </span>
+                          <span className="price">
+                            €{course.priceEUR}
+                          </span>
+                          <span className="discount">
+                            {Math.round(
+                              ((course.oldPrice -
+                                course.priceEUR) /
+                                course.oldPrice) *
+                                100
+                            )}
+                            % OFF
+                          </span>
+                        </>
+                      )}
                     </div>
 
-                </div>
-            </div>
-            <EnrollStepperModal
-                isOpen={showModal}
-                onClose={() => setShowModal(false)}
-                onConfirm={handleJoin}
-                />
-        </section>
-    )
+                    <button
+                      className="join-btn"
+                      onClick={() => {
+                        if (!registrationClosed) {
+                          setSelectedCourse(course);
+                          setShowModal(true);
+                        }
+                      }}
+                      disabled={
+                        registrationClosed ||
+                        isFull ||
+                        currentStatus === "pending" ||
+                        currentStatus === "approved" ||
+                        currentStatus === "loading"
+                      }
+                    >
+                      {isFull
+                        ? "Batch Full"
+                        : registrationClosed
+                        ? "Registration Closed"
+                        : currentStatus === "pending"
+                        ? "Request Pending"
+                        : currentStatus === "approved"
+                        ? "Enrolled"
+                        : currentStatus === "loading"
+                        ? "Processing..."
+                        : "Join Now"}
+                    </button>
+                  </div>
+                </ElectricBorder>
+              );
+            })}
+          </div>
+
+          <div className="a1-header">
+            <h2>What Makes This Course Special?</h2>
+            <FeaturesGrid />
+          </div>
+        </div>
+      </div>
+
+      <EnrollStepperModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={() => handleJoin(selectedCourse)}
+        course={selectedCourse}
+      />
+    </section>
+  );
 }

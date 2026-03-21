@@ -38,14 +38,17 @@
 
 .a1-layout{
     display: flex;
-    gap: 80px;
+    flex-direction: column;
+    gap: 10px;
     margin-top: 50px;
     align-items: center;
-    justify-content: center;
 }
 
-.a1-left{
-    flex: 0 0 360px;
+.a1-top{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 70px;
+  margin-bottom: 60px;
 }
 
 /* =========================
@@ -53,12 +56,14 @@
 ========================= */
 
 .a1-card {
-  min-height: 500px;
+  position: relative;
   padding: 40px 30px;
   display: flex;
   flex-direction: column;
   border-radius: 38px;
   color: #f3f4f6; /* light text */
+  width: 100%;
+  max-width: 420px;
 }
 
 
@@ -132,13 +137,37 @@
   z-index: 2;
 }
 
+.few-left {
+  text-align: center;
+  width: 100%;
+  font-size: 0.9rem;
+  color: #fcb251;
+}
+
+.early-warning {
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+  font-size: 14px;
+  color: #ffcc00;
+  text-align: center;   /* ✅ this centers text */
+  white-space: nowrap;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
 
 /* =========================
    TITLE + TEXT
 ========================= */
 
 .title {
-  font-size: 2.2rem;
+  font-size: 2.0rem;
   font-weight: 800;
 
   background: linear-gradient(90deg, #ffffff, #c2d0e0);
@@ -258,16 +287,14 @@
 
 /* RIGHT SIDE */
 
-.a1-right {
-  flex: 1;
-  max-width: 650px;
+.a1-bottom {
+  width: 100%;
 }
 
 .a1-features {
   display: grid;
-  grid-template-columns: repeat(2, 260px);
-  gap: 26px;
-  justify-content: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
 }
 
 /* DARK FEATURE CARD */
@@ -386,11 +413,13 @@
   margin-bottom: 10px;
   }
   .a1-layout {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: 1fr; /* KEY FIX */
+    gap: 30px;
   }
-  .a1-left {
-    flex: unset;
+  .a1-top {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
     width: 100%;
     max-width: 420px;
   }

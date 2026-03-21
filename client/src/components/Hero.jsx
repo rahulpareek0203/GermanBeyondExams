@@ -18,7 +18,7 @@ export default function Hero() {
           {/* LEFT SIDE */}
           <div className="hero__content">
             <p className="hero__eyebrow">
-              Speak German with confidence.
+              Learn German without Articles.
             </p>
 
             <h1 className="hero__title">
@@ -38,8 +38,8 @@ export default function Hero() {
                 View Courses
               </a>
 
-              <a href="#courses" className="hero-btn hero-btn--secondary">
-                See Pricing
+              <a href="#reviews" className="hero-btn hero-btn--secondary">
+                See Reviews
               </a>
             </div>
 

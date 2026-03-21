@@ -93,6 +93,245 @@
 }
 
 
+
+
+/* 🌌 OVERLAY */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(15,23,42,0.6), rgba(2,6,23,0.95));
+  backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* 💎 MODAL CONTAINER */
+.modal-box {
+  position: relative;
+  width: 90%;
+  max-width: 420px;
+  padding: 32px;
+  border-radius: 24px;
+
+  background: linear-gradient(
+    145deg,
+    rgba(15, 23, 42, 0.85),
+    rgba(30, 41, 59, 0.65)
+  );
+
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+
+  color: #e2e8f0;
+  text-align: center;
+
+  animation: modalEnter 0.35s ease;
+}
+
+/* ✨ Subtle glow border */
+.modal-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 1px;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  -webkit-mask: 
+    linear-gradient(#000 0 0) content-box, 
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* 🧠 TITLE */
+.modal-box h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: 0.3px;
+}
+
+/* 📄 TEXT */
+.modal-instruction {
+  font-size: 14px;
+  color: #94a3b8;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+/* 🧩 STEP + NOTE */
+.modal-step {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.modal-note {
+  font-size: 12px;
+  color: #22c55e;
+  margin-bottom: 14px;
+}
+
+/* ⌨️ INPUT */
+.modal-box input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+
+  background: rgba(255,255,255,0.06);
+  color: #e2e8f0;
+  font-size: 14px;
+
+  transition: all 0.25s ease;
+  margin-bottom: 14px;
+}
+
+.modal-box input::placeholder {
+  color: #64748b;
+}
+
+.modal-box input:focus {
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.6);
+}
+
+/* ❌ ERROR */
+.error-text {
+  color: #f87171;
+  font-size: 13px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+/* 🔘 BUTTON GROUP */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+/* 🚀 PRIMARY BUTTON */
+.unlock-btn {
+  flex: 1;
+  padding: 13px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+
+  transition: all 0.25s ease;
+}
+
+.unlock-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(99,102,241,0.4);
+}
+
+/* 🧊 SECONDARY BUTTON */
+.cancel-btn {
+  flex: 1;
+  padding: 13px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+
+  background: rgba(255,255,255,0.05);
+  color: #cbd5f5;
+
+  transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+/* 🔗 HELP LINK */
+.help-btn {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #a5b4fc;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.help-btn:hover {
+  color: #c7d2fe;
+}
+
+/* 🎬 REEL BUTTON */
+.reel-btn {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 14px 22px;
+  border-radius: 14px;
+
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition: all 0.25s ease;
+}
+
+.reel-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 15px 30px rgba(255,75,43,0.5);
+}
+
+/* 🔙 BACK BUTTON */
+.back-btn {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #94a3b8;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  color: white;
+}
+
+/* 🎬 ANIMATION */
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ❗ SHAKE */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.3s;
+}
+
 /* MOBILE LAYOUT */
 @media (max-width:768px){
 

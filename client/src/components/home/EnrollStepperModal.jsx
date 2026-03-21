@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./EnrollStepperModal.css";
 
-export default function EnrollStepperModal({ isOpen, onClose, onConfirm }) {
+export default function EnrollStepperModal({ isOpen, onClose, onConfirm, course }) {
   const [step, setStep] = useState(1);
   const [confirmed, setConfirmed] = useState(false);
   const [region, setRegion] = useState("germany");
@@ -17,11 +17,15 @@ export default function EnrollStepperModal({ isOpen, onClose, onConfirm }) {
 
   if (!isOpen) return null;
 
-  const price = region === "germany" ? "€50" : "₹5530";
+  const price =
+    region === "germany"
+      ? `€${course?.priceEUR}`
+      : `₹${course?.priceINR}`;
+  
   const timing =
     region === "germany"
-      ? "3:00 – 6:00 PM CET"
-      : "7:30 – 10:30 PM IST";
+      ? course?.timeGER
+      : course?.time;
 
   
 
@@ -40,7 +44,7 @@ export default function EnrollStepperModal({ isOpen, onClose, onConfirm }) {
         {/* Header */}
         <div className="modal-header">
           <h2 className="modal-title">Reserve Your Seat</h2>
-          <button onClick={onClose} className="close-btn">×</button>
+          <button onClick={onClose} className="close-btn--modal">×</button>
         </div>
 
         {/* Step Indicator */}
@@ -102,7 +106,7 @@ export default function EnrollStepperModal({ isOpen, onClose, onConfirm }) {
 
                 <div className="info-row">
                   <span>📅 Start Date</span>
-                  <strong>1st March</strong>
+                  <strong>{course?.startDate}</strong>
                 </div>
 
                 <div className="info-row">
@@ -112,7 +116,7 @@ export default function EnrollStepperModal({ isOpen, onClose, onConfirm }) {
 
                 <div className="info-row">
                   <span>⏳ Duration</span>
-                  <strong>1.5 Months</strong>
+                  <strong>{course?.id === "bundle-a1-a2" ? "3 Months" : "1.5 Months"}</strong>
                 </div>
 
                 <div className="info-row">
@@ -152,12 +156,12 @@ export default function EnrollStepperModal({ isOpen, onClose, onConfirm }) {
                   {region === "germany" ? (
                     <>
                       <span className="currency">€</span>
-                      <span className="amount">50</span>
+                      <span className="amount">{course?.priceEUR}</span>
                     </>
                   ) : (
                     <>
                       <span className="currency">₹</span>
-                      <span className="amount">5530</span>
+                      <span className="amount">{course?.priceINR}</span>
                     </>
                   )}
                 </div>
