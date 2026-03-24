@@ -28,8 +28,8 @@ const courses = [
     startDate: "Starting 6st April",
     time: "6:30 - 8:30 PM IST",
     timeGER: "3:00 - 5:00 PM CET",
-    priceEUR: 75,
-    oldPrice: 100,
+    priceEUR: 99,
+    oldPrice: 120,
     priceINR: 8299,
     totalSeats: 14,
   },
@@ -62,7 +62,6 @@ const courses = [
 export default function CourseSection() {
   const A1_ID = "d2ec4052-63ca-4528-ac8b-2215e20c4be0";
   const A2_ID = "1e5b473e-dd23-40e7-a610-6129d608fc12";
-  const EARLY_BIRD_LIMIT = 5;
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -287,9 +286,7 @@ Please share the payment details, as I am ready to join both courses.
               let totalSeats = course.totalSeats;
 
               if (course.id === "bundle-a1-a2") {
-                const a1Filled = seatMap[A1_ID] || 0;
-                const a2Filled = seatMap[A2_ID] || 0;
-                filledSeats = Math.max(a1Filled, a2Filled);
+                filledSeats = seatMap[A1_ID] || 0;
               }
 
               const fillPercentage =
@@ -297,10 +294,6 @@ Please share the payment details, as I am ready to join both courses.
               const isFull = filledSeats >= totalSeats;
 
               const currentStatus = statusMap[course.id];
-
-              const isA1Course = course.id === A1_ID;
-              const isEarlyBird =
-                isA1Course && filledSeats < EARLY_BIRD_LIMIT;
 
               return (
                 <ElectricBorder
@@ -316,13 +309,7 @@ Please share the payment details, as I am ready to join both courses.
                 >
                   <div className="a1-card">
                     
-                    {course.id === A1_ID && isEarlyBird && (
-                      <p className="early-warning">
-                        ⚡ Only{" "}
-                        {EARLY_BIRD_LIMIT - filledSeats} spots
-                        left at this price
-                      </p>
-                    )}
+                    
                     
                     <div className="seats-pill">
                       <div
@@ -365,44 +352,14 @@ Please share the payment details, as I am ready to join both courses.
                     
 
                     <div className="price-row">
-                      {course.id === A1_ID &&
-                      isEarlyBird ? (
-                        <>
-                          <span className="old-price">
-                            €{course.oldPrice}
-                          </span>
-                          <span className="price">
-                            €{course.priceEUR}
-                          </span>
-                          <span className="discount">
-                            25% OFF
-                          </span>
-                        </>
-                      ) : course.id === A1_ID ? (
-                        <>
-                          <span className="price">
-                            €{course.oldPrice}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <span className="old-price">
-                            €{course.oldPrice}
-                          </span>
-                          <span className="price">
-                            €{course.priceEUR}
-                          </span>
-                          <span className="discount">
-                            {Math.round(
-                              ((course.oldPrice -
-                                course.priceEUR) /
-                                course.oldPrice) *
-                                100
-                            )}
-                            % OFF
-                          </span>
-                        </>
-                      )}
+                      <span className="old-price">€{course.oldPrice}</span>
+                      <span className="price">€{course.priceEUR}</span>
+                      <span className="discount">
+                        {Math.round(
+                          ((course.oldPrice - course.priceEUR) / course.oldPrice) * 100
+                        )}
+                        % OFF
+                      </span>
                     </div>
 
                     <button
