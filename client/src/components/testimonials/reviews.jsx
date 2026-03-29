@@ -24,20 +24,70 @@ const VerifyIcon = () => (
    Review Card
 ============================= */
 const ReviewCard = ({ review }) => {
-  const isLong = review.review_text.length > 180; // adjust if needed
+  const isLong = review.review_text.length > 180;
+
+  const [expanded, setExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const handleToggle = (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  setExpanded((prev) => {
+    const newState = !prev;
+
+    // 👉 If collapsing, resume marquee
+    if (prev === true) {
+      const marquees = document.querySelectorAll(".marquee");
+      marquees.forEach((el) => el.classList.remove("paused"));
+    }
+
+    // 👉 If expanding, pause marquee
+    if (prev === false) {
+      const marquees = document.querySelectorAll(".marquee");
+      marquees.forEach((el) => el.classList.add("paused"));
+    }
+
+    return newState;
+  });
+};
+
+  const handleCardClick = () => {
+    if (!isMobile) return; // desktop uses normal link
+    if (!expanded) {
+      window.open(`https://instagram.com/${review.instagram_handle}`, "_blank");
+    }
+  };
 
   return (
     <a
       href={`https://instagram.com/${review.instagram_handle}`}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleCardClick}
       className={`group p-6 mx-4 w-80 shrink-0 rounded-2xl
-                  bg-white/5 backdrop-blur-lg
-                  border border-white/10
-                  shadow-lg
-                  transition-all duration-500 ease-in-out
-                  h-44 overflow-hidden
-                  ${isLong ? "hover:h-72" : ""}`}
+        bg-white/5 backdrop-blur-lg
+        border border-white/10 shadow-lg
+        transition-all duration-500 ease-in-out
+        overflow-hidden
+        ${
+          isMobile
+            ? expanded
+              ? "h-auto"
+              : "h-44"
+            : isLong
+            ? "h-44 hover:h-72"
+            : "h-44"
+        }`}
     >
       {/* Header */}
       <div className="flex gap-3 items-center mb-3">
@@ -61,13 +111,31 @@ const ReviewCard = ({ review }) => {
       {/* Text */}
       <p
         className={`text-sm text-gray-300 leading-relaxed transition-all duration-500
-        ${isLong ? "line-clamp-2 group-hover:line-clamp-none" : ""}`}
+        ${
+          isMobile
+            ? !expanded && isLong
+              ? "line-clamp-2"
+              : ""
+            : isLong
+            ? "line-clamp-2 group-hover:line-clamp-none"
+            : ""
+        }`}
       >
         {review.review_text}
       </p>
 
-      {/* See More */}
-      {isLong && (
+      {/* Toggle */}
+      {isLong && isMobile && (
+        <span
+          onClick={handleToggle}
+          className="text-xs text-purple-400 mt-2 block cursor-pointer"
+        >
+          {expanded ? "Show less" : "See more..."}
+        </span>
+      )}
+
+      {/* Desktop hint */}
+      {isLong && !isMobile && (
         <span className="text-xs text-purple-400 mt-2 block group-hover:hidden">
           See more...
         </span>
@@ -115,6 +183,7 @@ function MarqueeRow({ data, reverse = false, speed = 25 }) {
 export default function Reviews() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -134,29 +203,52 @@ export default function Reviews() {
     fetchReviews();
   }, []);
 
-  // Split dynamic reviews into 2 rows
-  const mid = Math.ceil(reviews.length / 2);
-  const row1 = reviews.slice(0, mid);
-  const row2 = reviews.slice(mid);
+  // ✅ Detect mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // ✅ Dynamic row split (2 desktop / 3 mobile)
+  let rows = [];
+
+  if (isMobile) {
+    const size = Math.ceil(reviews.length / 3);
+    rows = [
+      reviews.slice(0, size),
+      reviews.slice(size, size * 2),
+      reviews.slice(size * 2),
+    ];
+  } else {
+    const size = Math.ceil(reviews.length / 2);
+    rows = [
+      reviews.slice(0, size),
+      reviews.slice(size),
+    ];
+  }
 
   return (
-    <section id="reviews" className="py-10">
+    <section id="reviews" className="py-6 md:py-10">
       <style>{`
-  @keyframes marqueeScroll {
-    0% { transform: translateX(0%); }
-    100% { transform: translateX(-50%); }
-  }
+        @keyframes marqueeScroll {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
+        }
 
-  .marquee {
-    animation-name: marqueeScroll;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-  }
+        .marquee {
+          animation-name: marqueeScroll;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+        }
 
-  .marquee.paused {
-    animation-play-state: paused;
-  }
-`}</style>
+        .marquee.paused {
+          animation-play-state: paused;
+        }
+      `}</style>
 
       {loading && (
         <div className="text-center text-gray-400 py-10">
@@ -171,9 +263,15 @@ export default function Reviews() {
       )}
 
       {!loading && reviews.length > 0 && (
-        <div className="flex flex-col gap-1">
-          <MarqueeRow data={row1} reverse={false} speed={30} />
-          <MarqueeRow data={row2} reverse={true} speed={35} />
+        <div className="flex flex-col gap-0 md:gap-1">
+          {rows.map((row, index) => (
+            <MarqueeRow
+              key={index}
+              data={row}
+              reverse={index % 2 !== 0}
+              speed={isMobile ? 10 + index * 2 : 30 + index * 10}
+            />
+          ))}
         </div>
       )}
     </section>

@@ -34,7 +34,7 @@ export default function SocialConnect() {
 
         {/* WhatsApp */}
         <a
-          href="https://wa.me/919462715921"
+          href="https://wa.me/491725936119"
           target="_blank"
           rel="noopener noreferrer"
           className="social-icon whatsapp"

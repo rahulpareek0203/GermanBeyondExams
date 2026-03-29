@@ -257,6 +257,10 @@ export default function Navbar() {
               Vision
             </Link>
 
+            <a href="#contact" className="nav__link">
+              Contact
+            </a>
+
             {!user ? (
               <button
                 className="btn btn-login"
@@ -378,6 +382,10 @@ export default function Navbar() {
       <Link to="/vision" onClick={toggleMobileMenu}>
         Vision
       </Link>
+
+      <a href="/#contact" onClick={toggleMobileMenu}>
+        Contact
+      </a>
 
     {/* USER OPTIONS */}
     {user && (

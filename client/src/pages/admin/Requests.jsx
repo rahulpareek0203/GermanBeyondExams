@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../../styles/admin/adminRequests.css";
+import "./adminRequests.css";
 import {apiFetch} from "../../utils/apiFetch.js"
 import { useAuth } from "@/context/AuthContext";
 
@@ -91,7 +91,16 @@ export default function Requests() {
                     <td>{req.full_name}</td>
                     <td>{req.email}</td>
                     <td>{req.course_title}</td>
-                    <td>{req.created_at}</td>
+                    <td
+                        title={req.created_at}  // 👈 shows full timestamp on hover
+                        >
+                        {new Date(req.created_at).toLocaleString("en-GB", {
+                            day: "2-digit",
+                            month: "short",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                        })}
+                    </td>
 
                     <td>
                     <span className={`status ${req.status}`}>

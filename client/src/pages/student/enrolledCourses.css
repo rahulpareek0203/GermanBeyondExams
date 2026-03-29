@@ -1,0 +1,130 @@
+/* GRID */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 32px;
+  padding: 40px;
+}
+
+/* CARD */
+.course-card {
+  position: relative;
+  padding: 26px;
+  border-radius: 22px;
+  cursor: pointer;
+  overflow: hidden;
+
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.6));
+  backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  transition: all 0.4s ease;
+}
+
+/* HOVER */
+.course-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 25px 60px rgba(124, 58, 237, 0.25);
+}
+
+/* TITLE */
+.course-card h3 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin-bottom: 10px;
+}
+
+/* DATE */
+.course-dates {
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 14px;
+}
+
+/* ACTION */
+.course-action {
+  font-size: 14px;
+  color: #cbd5f5;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.course-card:hover .course-action {
+  opacity: 1;
+  transform: translateX(6px);
+}
+
+/* LEVEL BADGE */
+.badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+
+  background: rgba(124, 58, 237, 0.2);
+  color: #c4b5fd;
+  border: 1px solid rgba(124, 58, 237, 0.5);
+}
+
+/* STATUS BADGE */
+.status-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  letter-spacing: 0.4px;
+}
+
+/* 🔵 STARTING SOON */
+.status-upcoming {
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+/* 🟢 ONGOING */
+.status-ongoing {
+  background: rgba(34, 197, 94, 0.15);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+/* 🔴 COMPLETED */
+.status-completed {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+/* TOP ROW */
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+/* REMOVE absolute positioning */
+.status-badge {
+  position: static; /* ✅ important */
+}
+
+.badge {
+  position: static; /* ✅ important */
+}
+
+/* ADD breathing space */
+.course-card h3 {
+  margin-top: 4px;
+  margin-bottom: 12px;
+}

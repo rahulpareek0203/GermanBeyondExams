@@ -11,10 +11,6 @@ export default function StudentSidebar({ isOpen, setIsOpen }) {
           Dashboard
         </NavLink>
 
-        <NavLink to="/dashboard/my-courses">
-          My Courses
-        </NavLink>
-
         <NavLink to="/dashboard/resources">
           Resources
         </NavLink>

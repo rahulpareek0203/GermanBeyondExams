@@ -1,5 +1,9 @@
 import SocialConnect from "./ui/SocialConnect"
 
 export default function ConnectMe(){
-  return <SocialConnect/>
+  return (
+    <div id="contact">
+      <SocialConnect />
+    </div>
+  );
 }

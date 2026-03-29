@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 
 export default function authenticate(req, res, next) {
     
-    console.log(">>> message from backend (Authenticate.js):", req.headers)
     const authHeader = req.headers.authorization;
 
     //check if header exists
@@ -14,7 +13,6 @@ export default function authenticate(req, res, next) {
     }
 
     const token = authHeader.split(" ")[1]
-    console.log(">>> message from backend (Authenticate.js) [token]:", token)
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);

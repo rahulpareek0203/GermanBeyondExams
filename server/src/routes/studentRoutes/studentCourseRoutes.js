@@ -24,4 +24,36 @@ router.get("/:courseId/materials",
   }
 );
 
+
+router.get(
+  "/my-courses",
+  authenticate,
+  async (req, res) => {
+    try {
+      const userId = req.user.id;
+
+      const result = await pool.query(
+        `
+        SELECT 
+          c.id,
+          c.title,
+          c.level,
+          c.start_date,
+          c.end_date
+        FROM enrollments e
+        JOIN courses c ON e.course_id = c.id
+        WHERE e.user_id = $1
+        AND e.status = 'approved'
+        ORDER BY c.created_at DESC
+        `,
+        [userId]
+      );
+
+      res.json(result.rows);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  }
+);
 export default router;

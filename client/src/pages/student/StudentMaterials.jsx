@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { apiFetch } from "../../utils/apiFetch";
 import { useAuth } from "../../context/AuthContext";
 import "./studentmaterials.css";
+import { useParams } from "react-router-dom";
 
-export default function StudentA1() {
+export default function StudentMaterials() {
   const { logout } = useAuth();
-
+  const { courseId } = useParams();
   const [materials, setMaterials] = useState([]);
   const [activeTab, setActiveTab] = useState("class_recording");
   const [activeDay, setActiveDay] = useState(0);
@@ -13,7 +14,6 @@ export default function StudentA1() {
   const [errorMessage, setErrorMessage] = useState(null);
 
   // 🔹 Replace with actual courseId later (dynamic)
-  const courseId = "72d75a4f-2dd9-43b4-beef-f70867acab6d";
 
   useEffect(() => {
     const fetchMaterials = async () => {

@@ -1,3 +1,4 @@
+
 .admin-sidebar {
   width: 270px;
   background: linear-gradient(180deg, #0b1120, #0f172a);
@@ -6,8 +7,11 @@
   flex-direction: column;
   backdrop-filter: blur(12px);
   border-right: 1px solid rgba(255,255,255,0.05);
+
+  transition: transform 0.3s ease;
 }
 
+/* LOGO */
 .admin-logo {
   font-size: 22px;
   font-weight: 600;
@@ -17,6 +21,7 @@
   -webkit-text-fill-color: transparent;
 }
 
+/* NAV */
 .admin-sidebar nav {
   display: flex;
   flex-direction: column;
@@ -43,4 +48,21 @@
   background: linear-gradient(90deg, #8b5cf6, #6366f1);
   color: white;
   box-shadow: 0 10px 25px rgba(139, 92, 246, 0.5);
+}
+
+/* ✅ MOBILE BEHAVIOR (same as student) */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+
+    transform: translateX(-100%);
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
 }

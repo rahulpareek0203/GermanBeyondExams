@@ -27,7 +27,18 @@ export default function Courses() {
     };
 
     fetchCourses();
-    }, []);
+  }, []);
+
+  const formatDate = (date) => {
+    if (!date) return "-";
+
+    return new Date(date).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
 
   return (
     <div className="admin-page">
@@ -42,7 +53,6 @@ export default function Courses() {
           <thead>
             <tr>
               <th>Title</th>
-              <th>Level</th>
               <th>Status</th>
               <th>Start</th>
               <th>End</th>
@@ -54,20 +64,20 @@ export default function Courses() {
             {courses.map(course => (
               <tr key={course.id}>
                 <td>{course.title}</td>
-                <td>{course.level}</td>
                 <td>
                   <span className={`status ${course.status}`}>
                     {course.status}
                   </span>
                 </td>
-                <td>{course.start_date || "-"}</td>
-                <td>{course.end_date || "-"}</td>
+                <td>{formatDate(course.start_date)}</td>
+                <td>{formatDate(course.end_date)}</td>
                 <td>
                   <Link
                     to={`/admin/courses/${course.id}`}
-                    className="manage-link"
+                    className="manage-btn"
                   >
-                    Manage →
+                    Manage
+                    <span>→</span>
                   </Link>
                 </td>
               </tr>

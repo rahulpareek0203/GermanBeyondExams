@@ -24,7 +24,9 @@ import StudentA1 from "./pages/student/StudentMaterials";
 import Courses from "./pages/admin/Courses";
 import ManageCourse from "./pages/admin/ManageCourse";
 import FreeResources from "./pages/FreeResources";
-
+import AdminStudents from "./pages/admin/AdminStudents";
+import StudentCourses from "./pages/student/EnrolledCourses";
+import StudentMaterials from "./pages/student/StudentMaterials";
 
 export default function App() {
   
@@ -63,7 +65,8 @@ export default function App() {
                 >
                   
                   <Route path="profile" element={<ProfileInfoPage />} />
-                  <Route path="resources" element={<StudentA1 />} />
+                  <Route path="resources" element={<StudentCourses  />} />
+                  <Route path="resources/:courseId" element={<StudentMaterials />} />
                 </Route>
 
                 {/* <Route
@@ -92,6 +95,7 @@ export default function App() {
                   <Route path="profile" element={<ProfileInfoPage />} />
                   <Route path="courses" element={<Courses />}/>
                   <Route path="courses/:courseId" element={<ManageCourse />} />
+                  <Route path="adminStudents" element={<AdminStudents />} />
                 </Route>
 
 

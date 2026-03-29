@@ -29,7 +29,7 @@ export default function UpcomingBatches() {
           </a>
 
           {/* A2 */}
-          <div className="card batch-card">
+          <a href="#courses" className="card batch-card batch-card--clickable">
             <div className="batch-card__header">
               <div className="batch-card__title">A2 Elementary</div>
               <div className="batch-card__badge badge--open">Registration Open</div>
@@ -37,7 +37,7 @@ export default function UpcomingBatches() {
             <div className="card__text">
               Gain confidence in everyday conversations.
             </div>
-          </div>
+          </a>
 
           {/* B1 */}
           <div className="card batch-card">

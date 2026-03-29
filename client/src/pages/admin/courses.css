@@ -45,12 +45,14 @@
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.06);
   padding: 25px;
+  overflow-x: auto;
 }
 
 /* Table */
 .admin-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 700px;
 }
 
 .admin-table th {
@@ -88,14 +90,53 @@
   color: #ef4444;
 }
 
-/* Manage link */
-.manage-link {
-  color: #7c3aed;
-  text-decoration: none;
+/* PREMIUM MANAGE BUTTON */
+.manage-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 6px 14px;
+  border-radius: 999px;
+
+  font-size: 13px;
   font-weight: 500;
-  transition: 0.3s;
+
+  background: rgba(124, 58, 237, 0.15);
+  color: #c4b5fd;
+
+  border: 1px solid rgba(124, 58, 237, 0.4);
+
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
-.manage-link:hover {
-  color: #a855f7;
+/* Arrow animation */
+.manage-btn span {
+  transition: transform 0.3s ease;
+}
+
+/* Hover */
+.manage-btn:hover {
+  background: rgba(124, 58, 237, 0.25);
+  transform: translateY(-2px);
+}
+
+.manage-btn:hover span {
+  transform: translateX(4px);
+}
+
+
+@media (max-width: 768px) {
+  .admin-page {
+    padding: 20px;
+  }
+
+  .glass-card {
+    padding: 15px;
+  }
+
+  .page-header h1 {
+    font-size: 22px;
+  }
 }

@@ -1,13 +1,12 @@
 import { NavLink } from "react-router-dom";
-import "../../styles/admin/AdminLayout.css";
-import "../../styles/admin/AdminSidebar.css"
+import "./AdminSidebar.css";
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ isOpen, setIsOpen }) {
   return (
-    <div className="admin-sidebar">
+    <div className={`admin-sidebar ${isOpen ? "open" : ""}`}>
       <h2 className="admin-logo">Admin Panel</h2>
 
-      <nav>
+      <nav onClick={() => setIsOpen(false)}>
         <NavLink to="/admin" end>
           Dashboard
         </NavLink>
@@ -20,7 +19,7 @@ export default function AdminSidebar() {
           Courses
         </NavLink>
 
-        <NavLink to="/admin/students">
+        <NavLink to="/admin/adminStudents">
           Students
         </NavLink>
       </nav>

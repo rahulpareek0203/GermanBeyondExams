@@ -22,6 +22,18 @@ const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const courses = [
   {
+    id: "bundle-a1-a2",
+    title: "A1 + A2 Bundle",
+    subtitle: "Complete foundation. From beginner to confident speaker.",
+    startDate: "Starting 6st April",
+    time: "6:30 - 8:30 PM IST",
+    timeGER: "3:00 - 5:00 PM CET",
+    priceEUR: 160,
+    oldPrice: 200,
+    priceINR: 17340,
+    totalSeats: 14,
+  },
+  {
     id: "d2ec4052-63ca-4528-ac8b-2215e20c4be0",
     title: "German A1 Batch",
     subtitle: "Real German starts at A1. Build it right from day one.",
@@ -44,19 +56,8 @@ const courses = [
     oldPrice: 120,
     priceINR: 10999,
     totalSeats: 14,
-  },
-  {
-    id: "bundle-a1-a2",
-    title: "A1 + A2 Bundle",
-    subtitle: "Complete foundation. From beginner to confident speaker.",
-    startDate: "Starting 6st April",
-    time: "6:30 - 8:30 PM IST",
-    timeGER: "3:00 - 5:00 PM CET",
-    priceEUR: 160,
-    oldPrice: 200,
-    priceINR: 17340,
-    totalSeats: 14,
   }
+  
 ];
 
 export default function CourseSection() {
@@ -245,7 +246,7 @@ User ID: ${user?.id || ""}
 Please share the payment details, as I am ready to join.
 `;
 
-    const whatsappUrl = `https://wa.me/919462715921?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/491725936119?text=${encodeURIComponent(
       message
     )}`;
     window.open(whatsappUrl, "_blank");
@@ -262,7 +263,7 @@ User ID: ${user?.id || ""}
 Please share the payment details, as I am ready to join both courses.
 `;
 
-    const whatsappUrl = `https://wa.me/919462715921?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/491725936119?text=${encodeURIComponent(
       message
     )}`;
     window.open(whatsappUrl, "_blank");

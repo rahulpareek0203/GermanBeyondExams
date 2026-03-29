@@ -141,3 +141,44 @@
     transform: translateY(0);
   }
 }
+
+
+
+
+
+
+@media (max-width: 768px) {
+
+  .requests-table-wrapper {
+    overflow-x: auto;   /* 👈 KEY */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .requests-table {
+    min-width: 700px;   /* 👈 prevents squeezing */
+  }
+
+  /* Slight padding adjustment */
+  .requests-table th,
+  .requests-table td {
+    padding: 12px;
+    font-size: 13px;
+  }
+  .requests-table td:nth-child(4) {
+    white-space: nowrap;
+  }
+
+  /* Buttons stay usable */
+  .action-buttons {
+    gap: 8px;
+  }
+
+  .accept-btn,
+  .reject-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  .requests-header{
+    display: none;
+  }
+}
