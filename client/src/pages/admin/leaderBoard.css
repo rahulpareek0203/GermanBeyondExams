@@ -1,0 +1,341 @@
+/* BACKGROUND */
+.exam-result-container {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding: 1px;
+}
+
+/* HEADER */
+.exam-result-header {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.exam-result-header h2 {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.exam-result-subtitle {
+  color: #94a3b8;
+  margin-top: 6px;
+}
+
+/* BADGE */
+.exam-result-badge {
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  box-shadow: 0 0 20px rgba(139,92,246,0.5);
+}
+
+/* CARD */
+.exam-result-card {
+  width: 100%;
+  max-width: 1000px;
+
+  background: rgba(255,255,255,0.04);
+  border-radius: 24px;
+  padding: 35px;
+
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 0 80px rgba(99,102,241,0.15),
+    0 30px 80px rgba(0,0,0,0.7);
+
+  transition: 0.3s;
+}
+
+.exam-result-card:hover {
+  transform: translateY(-3px);
+}
+
+/* FORM */
+.exam-result-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* SECTION */
+.exam-result-section {
+  padding: 20px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.exam-result-section h4 {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #cbd5f5;
+}
+
+/* GRID */
+.exam-result-select-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.exam-result-marks-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+/* INPUT GROUP */
+.exam-result-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.exam-result-input-group label {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* INPUT STYLE */
+.exam-result-input-group input,
+.exam-result-input-group select {
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.06);
+  color: white;
+  outline: none;
+
+  transition: all 0.25s ease;
+}
+
+/* HOVER + FOCUS */
+.exam-result-input-group input:hover,
+.exam-result-input-group select:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.exam-result-input-group input:focus,
+.exam-result-input-group select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 12px rgba(99,102,241,0.5);
+  background: rgba(255,255,255,0.1);
+}
+
+/* DUAL INPUT */
+.exam-result-dual-input {
+  display: flex;
+  gap: 10px;
+}
+
+.exam-result-dual-input input {
+  width: 100%;
+}
+
+/* TOTAL BOX */
+.exam-result-total-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 18px 22px;
+  border-radius: 16px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(99,102,241,0.2),
+    rgba(6,182,212,0.15)
+  );
+
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* TOTAL TEXT */
+.exam-result-total-box span {
+  color: #cbd5f5;
+}
+
+.exam-result-total-box h3 {
+  color: #22d3ee;
+  font-size: 22px;
+}
+
+/* PERCENTAGE */
+.exam-result-percentage {
+  font-size: 22px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* BUTTON */
+.exam-result-btn {
+  width: 100%;
+  padding: 16px;
+
+  border-radius: 14px;
+  border: none;
+
+  background: linear-gradient(90deg, #8b5cf6, #6366f1, #06b6d4);
+
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* BUTTON HOVER */
+.exam-result-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(99,102,241,0.5);
+}
+
+
+/* SELECT FIX */
+.exam-result-input-group select {
+  background: #0f172a; /* dark */
+  color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* DROPDOWN OPTIONS */
+.exam-result-input-group select option {
+  background: #0f172a;
+  color: white;
+}
+
+/* MOBILE */
+/* ========================= */
+/* 📱 MOBILE OPTIMIZATION */
+/* ========================= */
+@media (max-width: 768px) {
+
+  /* PAGE */
+  .exam-result-container {
+    width: 100%;
+    padding: 1px;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+  }
+
+  /* HEADER */
+  .exam-result-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .exam-result-header h2 {
+    font-size: 24px;
+  }
+
+  .exam-result-subtitle {
+    font-size: 13px;
+  }
+
+  .exam-result-badge {
+    align-self: flex-end;
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  /* CARD */
+  .exam-result-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  /* FORM */
+  .exam-result-form {
+    gap: 22px;
+  }
+
+  /* SECTION */
+  .exam-result-section {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .exam-result-section h4 {
+    font-size: 14px;
+  }
+
+  /* SELECTS STACK */
+  .exam-result-select-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* 🔥 MARKS GRID (ONE MODULE PER ROW) */
+  .exam-result-marks-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* INPUT GROUP */
+  .exam-result-input-group {
+    gap: 6px;
+  }
+
+  .exam-result-input-group label {
+    font-size: 12px;
+  }
+
+  /* 🔥 SCORE + MAX SIDE BY SIDE */
+  .exam-result-dual-input {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* INPUTS */
+  .exam-result-input-group input,
+  .exam-result-input-group select {
+    padding: 14px;
+    font-size: 15px;
+    border-radius: 10px;
+  }
+
+  /* TOTAL BOX */
+  .exam-result-total-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .exam-result-total-box h3 {
+    font-size: 18px;
+  }
+
+  .exam-result-percentage {
+    align-self: flex-end;
+    font-size: 18px;
+  }
+
+  /* BUTTON */
+  .exam-result-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+  }
+
+}

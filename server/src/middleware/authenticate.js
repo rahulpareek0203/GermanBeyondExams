@@ -19,7 +19,6 @@ export default function authenticate(req, res, next) {
 
         // attach user to the request
         req.user = decoded
-        console.log(">>> message from backend (Authenticate.js) [req.user and decoded]:", req.user, decoded)
 
         next();
 

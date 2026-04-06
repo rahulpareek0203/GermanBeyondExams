@@ -166,8 +166,8 @@
    TITLE + TEXT
 ========================= */
 
-.title {
-  font-size: 2.0rem;
+.course_title {
+  font-size: 1.9rem;
   font-weight: 800;
 
   background: linear-gradient(90deg, #ffffff, #c2d0e0);
@@ -176,7 +176,7 @@
 }
 
 
-.subtitle {
+.course_subtitle {
   font-size: 1rem;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.65);

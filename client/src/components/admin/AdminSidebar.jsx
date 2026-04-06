@@ -22,6 +22,10 @@ export default function AdminSidebar({ isOpen, setIsOpen }) {
         <NavLink to="/admin/adminStudents">
           Students
         </NavLink>
+
+        <NavLink to="/admin/leaderBoard">
+          Leaderboard
+        </NavLink>
       </nav>
     </div>
   );

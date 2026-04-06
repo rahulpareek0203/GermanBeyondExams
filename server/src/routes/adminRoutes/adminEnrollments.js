@@ -23,6 +23,8 @@ router.get("/", authenticate, async(req, res) => {
                 e.status,
                 e.created_at,
                 u.full_name,
+                e.user_id,
+                e.course_id,
                 u.email,
                 c.title AS course_title,
                 c.level

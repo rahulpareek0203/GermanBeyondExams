@@ -27,6 +27,8 @@ import FreeResources from "./pages/FreeResources";
 import AdminStudents from "./pages/admin/AdminStudents";
 import StudentCourses from "./pages/student/EnrolledCourses";
 import StudentMaterials from "./pages/student/StudentMaterials";
+import StudentDashboard from "./pages/student/StudentDashboard";
+import AddExamResult from "./pages/admin/LeaderBoard";
 
 export default function App() {
   
@@ -61,9 +63,9 @@ export default function App() {
                     <RoleRoute allowedRoles={["student", "admin"]}>
                       <StudentLayout />
                     </RoleRoute>
-                  }
+                  } 
                 >
-                  
+                  <Route index element={<StudentDashboard />} />
                   <Route path="profile" element={<ProfileInfoPage />} />
                   <Route path="resources" element={<StudentCourses  />} />
                   <Route path="resources/:courseId" element={<StudentMaterials />} />
@@ -96,6 +98,7 @@ export default function App() {
                   <Route path="courses" element={<Courses />}/>
                   <Route path="courses/:courseId" element={<ManageCourse />} />
                   <Route path="adminStudents" element={<AdminStudents />} />
+                  <Route path="leaderBoard" element={<AddExamResult />} />
                 </Route>
 
 

@@ -56,7 +56,10 @@ import freeResourcesRoutes from "./routes/freeResourcesRoutes.js";
 app.use("/api", freeResourcesRoutes);
 
 
+import leaderBoardRoutes from "./routes/adminRoutes/leaderBoardRoutes.js"
+app.use("/api/admin/exam-results", leaderBoardRoutes)
 
+app.use("/api/student", studentCourseRoutes);
 
 
 

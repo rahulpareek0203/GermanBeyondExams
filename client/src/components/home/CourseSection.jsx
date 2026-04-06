@@ -283,12 +283,15 @@ Please share the payment details, as I am ready to join both courses.
         <div className="a1-layout">
           <div className="a1-top">
             {courses.map((course) => {
-              let filledSeats = seatMap[course.id] || 0;
+              let filledSeatsRaw = seatMap[course.id] || 0;
               let totalSeats = course.totalSeats;
 
               if (course.id === "bundle-a1-a2") {
-                filledSeats = seatMap[A1_ID] || 0;
+                filledSeatsRaw = seatMap[A1_ID] || 0;
               }
+              
+              // ✅ clamp so UI never exceeds max
+              const filledSeats = Math.min(filledSeatsRaw, totalSeats);
 
               const fillPercentage =
                 (filledSeats / totalSeats) * 100;
@@ -333,8 +336,8 @@ Please share the payment details, as I am ready to join both courses.
                         </p>
                       )}
 
-                    <h3 className="title">{course.title}</h3>
-                    <p className="subtitle">
+                    <h3 className="course_title">{course.title}</h3>
+                    <p className="course_subtitle">
                       {course.subtitle}
                     </p>
 
@@ -373,7 +376,6 @@ Please share the payment details, as I am ready to join both courses.
                       }}
                       disabled={
                         registrationClosed ||
-                        isFull ||
                         currentStatus === "pending" ||
                         currentStatus === "approved" ||
                         currentStatus === "loading"
