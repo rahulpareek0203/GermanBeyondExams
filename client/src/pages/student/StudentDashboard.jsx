@@ -9,10 +9,35 @@ export default function StudentDashboard() {
   const [leaderboard, setLeaderboard] = useState([]);
   const [results, setResults] = useState([]);
   const [showAll, setShowAll] = useState(false);
-
-  const courseId = "d2ec4052-63ca-4528-ac8b-2215e20c4be0";
+  const [courseId, setCourseId] = useState(null);
+  
 
   useEffect(() => {
+  const fetchCourse = async () => {
+    try {
+      const res = await apiFetch("/api/student/my-courses", {}, logout);
+      const data = await res.json();
+      console.log("Enrolled courses:", data);
+
+      if (data.length === 0) {
+        console.warn("No enrolled courses found");
+        return;
+      }
+
+      // 👉 pick latest course (already ordered DESC)
+      setCourseId(data[0].id);
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  fetchCourse();
+}, [logout]);
+
+  useEffect(() => {
+    if (!courseId) return; // 🚨 IMPORTANT
+    
     const fetchData = async () => {
       try {
         const lbRes = await apiFetch(
