@@ -21,7 +21,7 @@ export default function UpcomingBatches() {
           <a href="#courses" className="card batch-card batch-card--clickable">
             <div className="batch-card__header">
               <div className="batch-card__title">A1 Beginner</div>
-              <div className="batch-card__badge">Coming Soon</div>
+              <div className="batch-card__badge badge--open">Enroll Now</div>
             </div>
             <div className="card__text">
               Perfect for beginners starting their German journey.
@@ -32,7 +32,7 @@ export default function UpcomingBatches() {
           <a href="#courses" className="card batch-card batch-card--clickable">
             <div className="batch-card__header">
               <div className="batch-card__title">A2 Elementary</div>
-              <div className="batch-card__badge">Coming Soon</div>
+              <div className="batch-card__badge badge--open">Enroll Now</div>
             </div>
             <div className="card__text">
               Gain confidence in everyday conversations.
@@ -40,15 +40,15 @@ export default function UpcomingBatches() {
           </a>
 
           {/* B1 */}
-          <div className="card batch-card">
+          <a href="#courses" className="card batch-card batch-card--clickable">
             <div className="batch-card__header">
               <div className="batch-card__title">B1 Intermediate</div>
-              <div className="batch-card__badge">Coming Soon</div>
+              <div className="batch-card__badge badge--open">Enroll Now</div>
             </div>
             <div className="card__text">
               Prepare for work, study, and life in Germany.
             </div>
-          </div>
+          </a>
 
         </div>
       </section>

@@ -21,48 +21,65 @@ import EnrollStepperModal from "./EnrollStepperModal";
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const courses = [
+  
   {
-    id: "bundle-a1-a2",
-    title: "A1 + A2 Bundle",
-    subtitle: "Complete foundation. From beginner to confident speaker.",
-    startDate: "Starting 6st April",
-    time: "6:30 - 8:30 PM IST",
-    timeGER: "3:00 - 5:00 PM CET",
-    priceEUR: 160,
-    oldPrice: 200,
-    priceINR: 17340,
-    totalSeats: 14,
-  },
-  {
-    id: "d2ec4052-63ca-4528-ac8b-2215e20c4be0",
+    id: "36348ce7-6501-4586-95c2-c0a3b814b485",
     title: "German A1 Batch",
     subtitle: "Real German starts at A1. Build it right from day one.",
-    startDate: "Starting 6st April",
-    time: "6:30 - 8:30 PM IST",
-    timeGER: "3:00 - 5:00 PM CET",
+    startDate: "Starting 1st June",
+    time: "6:00 - 7:30 PM IST",
+    timeGER: "2:30 - 4:00 PM CET",
     priceEUR: 99,
     oldPrice: 120,
-    priceINR: 8299,
-    totalSeats: 14,
-  },
+    priceINR: 11200,
+    totalSeats: 15,
+  },  
+  
   {
-    id: "1e5b473e-dd23-40e7-a610-6129d608fc12",
+    id: "44a01bb0-f5e7-46e5-bcc3-46df972c7a6e",
     title: "German A2 Batch",
     subtitle: "Take your German to the next level with real conversations.",
-    startDate: "Starting 6st April",
-    time: "8:30 - 10:30 PM IST",
-    timeGER: "5:00 - 7:00 PM CET",
-    priceEUR: 99,
-    oldPrice: 120,
-    priceINR: 10999,
-    totalSeats: 14,
-  }
+    startDate: "Starting 1st June",
+    time: "7:30 - 9:00 PM IST",
+    timeGER: "4:00 - 5:30 PM CET",
+    priceEUR: 130,
+    oldPrice: 150,
+    priceINR: 14500,
+    totalSeats: 15,
+  },
+
+  {
+    id: "655da85d-5864-4c1f-bf46-292274763f5f",
+    title: "German B1 Batch",
+    subtitle: "Speak more fluently, think faster, and communicate naturally in German.",
+    startDate: "Starting 1st June",
+    time: "9:15 - 10:45 PM IST",
+    timeGER: "5:45 - 7:15 PM CET",
+    priceEUR: 150,
+    oldPrice: 175,
+    priceINR: 16750,
+    totalSeats: 15,
+  },
   
 ];
 
+const bundles = {
+  "36348ce7-6501-4586-95c2-c0a3b814b485": {
+    title: "A1 + A2 Bundle",
+    courses: ["German A1 Batch", "German A2 Batch"],
+    originalPrice: 249,
+    discountedPrice: 199,
+  },
+
+  "44a01bb0-f5e7-46e5-bcc3-46df972c7a6e": {
+    title: "A2 + B1 Bundle",
+    courses: ["German A2 Batch", "German B1 Batch"],
+    originalPrice: 280,
+    discountedPrice: 229,
+  },
+};
+
 export default function CourseSection() {
-  const A1_ID = "d2ec4052-63ca-4528-ac8b-2215e20c4be0";
-  const A2_ID = "1e5b473e-dd23-40e7-a610-6129d608fc12";
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -76,7 +93,7 @@ export default function CourseSection() {
   const [statusMap, setStatusMap] = useState({});
   const [checking, setChecking] = useState(true);
 
-  const totalSeats = 14;
+  const totalSeats = 15;
   const filledSeats = 14;
   const fillPercentage = (filledSeats / totalSeats) * 100;
 
@@ -142,11 +159,6 @@ export default function CourseSection() {
 
     if (!course) return;
 
-    if (course.id === "bundle-a1-a2") {
-      await handleBundleJoin();
-      return;
-    }
-
     const currentStatus = statusMap[course.id];
     console.log("status of enrollment:", currentStatus);
 
@@ -178,7 +190,7 @@ export default function CourseSection() {
         }));
 
         alert("Request submitted. Await admin approval");
-        sendMessage(course);
+        sendMessage(course.title);
       } else {
         alert(data.message || "Something went wrong");
         sendMessage(course);
@@ -194,57 +206,66 @@ export default function CourseSection() {
     }
   };
 
-  const handleBundleJoin = async () => {
-    const a1 = courses.find((c) => c.title.includes("A1 Batch"));
-    const a2 = courses.find((c) => c.title.includes("A2 Batch"));
-
+  const handleBundleEnrollment = async (course) => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    
     try {
-      const responses = await Promise.all([
-        apiFetch(
-          "/api/enrollments",
-          {
-            method: "POST",
-            body: JSON.stringify({ courseId: a1.id }),
-          },
-          logout
-        ),
-        apiFetch(
-          "/api/enrollments",
-          {
-            method: "POST",
-            body: JSON.stringify({ courseId: a2.id }),
-          },
-          logout
-        ),
-      ]);
+      // =====================================
+      // ENROLL ONLY CURRENT COURSE
+      // =====================================
 
-      for (let res of responses) {
-        const data = await res.json();
-        console.log("Bundle response:", data);
+      const res = await apiFetch("/api/enrollments", 
+                          {
+                            method: "POST",
+                            body: JSON.stringify({
+                              courseId: course.id
+                            }),
+                          },
+                          logout
+                          )
 
-        if (!res.ok) {
-          alert(data.message || "Error in bundle enrollment");
-          return;
-        }
+      if(!res) return;
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert( data.message || "Bundle Enrollment Failed")
+        return;
       }
 
-      alert("Bundle request submitted!");
-      sendBundleMessage();
-    } catch (err) {
-      console.error(err);
+      // creating the Bundle Name for the whatsapp message
+
+      let bundleName = "";
+
+      if(course.title.includes("A1")) bundleName = "A1 + A2 Bundle"
+      else if (course.title.includes("A2")) bundleName = "A2 + B1 Bundle"
+
+      // Success
+
+      alert("Bundle request submitted successfully!")
+
+      sendMessage(bundleName)
+
+
+    } catch (error) {
+      
     }
-  };
+          
+  }
 
-  const sendMessage = (course) => {
+  const sendMessage = (courseName) => {
     const message = `
-Hi Rahul, I would like to reserve my seat for ${course.title}.
+      Hi Rahul, I would like to reserve my seat for ${courseName}.
 
-Name: ${user?.full_name || ""}
-Email: ${user?.email || ""}
-User ID: ${user?.id || ""}
+      Name: ${user?.full_name || ""}
+      Email: ${user?.email || ""}
+      User ID: ${user?.id || ""}
 
-Please share the payment details, as I am ready to join.
-`;
+      Please share the payment details, as I am ready to join.
+      `;
 
     const whatsappUrl = `https://wa.me/491725936119?text=${encodeURIComponent(
       message
@@ -252,22 +273,7 @@ Please share the payment details, as I am ready to join.
     window.open(whatsappUrl, "_blank");
   };
 
-  const sendBundleMessage = () => {
-    const message = `
-Hi Rahul, I would like to reserve my seat for A1 + A2 Bundle.
-
-Name: ${user?.full_name || ""}
-Email: ${user?.email || ""}
-User ID: ${user?.id || ""}
-
-Please share the payment details, as I am ready to join both courses.
-`;
-
-    const whatsappUrl = `https://wa.me/491725936119?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(whatsappUrl, "_blank");
-  };
+  
 
   return (
     <section id="courses" className="a1-section">
@@ -368,18 +374,20 @@ Please share the payment details, as I am ready to join both courses.
 
                     <button
                       className="join-btn"
-                      onClick={() => {
-                        if (!registrationClosed) {
-                          setSelectedCourse(course);
-                          setShowModal(true);
-                        }
-                      }}
+
                       disabled={
                         registrationClosed ||
                         currentStatus === "pending" ||
                         currentStatus === "approved" ||
                         currentStatus === "loading"
                       }
+
+                      onClick={() => {
+                        if(registrationClosed) return;
+
+                        setSelectedCourse(course)
+                        setShowModal(true)
+                      }}
                     >
                       {isFull
                         ? "Batch Full"
@@ -410,7 +418,9 @@ Please share the payment details, as I am ready to join both courses.
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={() => handleJoin(selectedCourse)}
+        onBundleConfirm = {() => handleBundleEnrollment(selectedCourse)}
         course={selectedCourse}
+
       />
     </section>
   );
