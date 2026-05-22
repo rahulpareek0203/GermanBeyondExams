@@ -62,6 +62,11 @@ app.use("/api/admin/exam-results", leaderBoardRoutes)
 app.use("/api/student", studentCourseRoutes);
 
 
+// AI API
+import aiRoutes from "./routes/aiRoutes.js"
+app.use("/api/ai", aiRoutes)
+
+
 
 
 

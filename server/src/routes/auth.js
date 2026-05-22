@@ -126,7 +126,7 @@ router.post("/login", async (req, res) => {
         role: user.role
       },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "10h" }
     );
     console.log(">>>> JWT Token from backend (auth,js):", token)
 

@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useMemo, useEffect, useState } from "react";
@@ -8,7 +7,12 @@ import { apiFetch } from "@/utils/apiFetch";
    Verify Icon
 ============================= */
 const VerifyIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 48 48">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="14"
+    height="14"
+    viewBox="0 0 48 48"
+  >
     <polygon
       fill="#42a5f5"
       points="29.62,3 33.053,8.308 39.367,8.624 39.686,14.937 44.997,18.367 42.116,23.995 45,29.62 39.692,33.053 39.376,39.367 33.063,39.686 29.633,44.997 24.005,42.116 18.38,45 14.947,39.692 8.633,39.376 8.314,33.063 3.003,29.633 5.884,24.005 3,18.38 8.308,14.947 8.624,8.633 14.937,8.314 18.367,3.003 23.995,5.884"
@@ -24,7 +28,7 @@ const VerifyIcon = () => (
    Review Card
 ============================= */
 const ReviewCard = ({ review }) => {
-  const isLong = review.review_text.length > 180;
+  const isLong = review.review_text.length > 150;
 
   const [expanded, setExpanded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -33,38 +37,41 @@ const ReviewCard = ({ review }) => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
+
     checkMobile();
+
     window.addEventListener("resize", checkMobile);
+
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   const handleToggle = (e) => {
-  e.preventDefault();
-  e.stopPropagation();
+    e.preventDefault();
+    e.stopPropagation();
 
-  setExpanded((prev) => {
-    const newState = !prev;
-
-    // 👉 If collapsing, resume marquee
-    if (prev === true) {
+    setExpanded((prev) => {
       const marquees = document.querySelectorAll(".marquee");
-      marquees.forEach((el) => el.classList.remove("paused"));
-    }
 
-    // 👉 If expanding, pause marquee
-    if (prev === false) {
-      const marquees = document.querySelectorAll(".marquee");
-      marquees.forEach((el) => el.classList.add("paused"));
-    }
+      marquees.forEach((el) => {
+        if (!prev) {
+          el.classList.add("paused");
+        } else {
+          el.classList.remove("paused");
+        }
+      });
 
-    return newState;
-  });
-};
+      return !prev;
+    });
+  };
 
   const handleCardClick = () => {
-    if (!isMobile) return; // desktop uses normal link
+    if (!isMobile) return;
+
     if (!expanded) {
-      window.open(`https://instagram.com/${review.instagram_handle}`, "_blank");
+      window.open(
+        `https://instagram.com/${review.instagram_handle}`,
+        "_blank"
+      );
     }
   };
 
@@ -74,11 +81,21 @@ const ReviewCard = ({ review }) => {
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleCardClick}
-      className={`group p-6 mx-4 w-80 shrink-0 rounded-2xl
-        bg-white/5 backdrop-blur-lg
-        border border-white/10 shadow-lg
-        transition-all duration-500 ease-in-out
+      className={`
+        group
+        relative
+        p-6
+        mx-3
+        w-[280px]
+        md:w-[320px]
+        flex-shrink-0
+        rounded-2xl
+        bg-white/5
+        backdrop-blur-lg
+        border border-white/10
+        shadow-lg
         overflow-hidden
+        transition-all duration-500 ease-in-out
         ${
           isMobile
             ? expanded
@@ -87,7 +104,8 @@ const ReviewCard = ({ review }) => {
             : isLong
             ? "h-44 hover:h-72"
             : "h-44"
-        }`}
+        }
+      `}
     >
       {/* Header */}
       <div className="flex gap-3 items-center mb-3">
@@ -100,31 +118,38 @@ const ReviewCard = ({ review }) => {
             <p className="font-medium text-white text-sm">
               {review.full_name}
             </p>
+
             <VerifyIcon />
           </div>
+
           <span className="text-xs text-gray-400">
             @{review.instagram_handle}
           </span>
         </div>
       </div>
 
-      {/* Text */}
+      {/* Review Text */}
       <p
-        className={`text-sm text-gray-300 leading-relaxed transition-all duration-500
-        ${
-          isMobile
-            ? !expanded && isLong
-              ? "line-clamp-2"
+        className={`
+          text-sm
+          text-gray-300
+          leading-relaxed
+          transition-all duration-500
+          ${
+            isMobile
+              ? !expanded && isLong
+                ? "line-clamp-2"
+                : ""
+              : isLong
+              ? "line-clamp-2 group-hover:line-clamp-none"
               : ""
-            : isLong
-            ? "line-clamp-2 group-hover:line-clamp-none"
-            : ""
-        }`}
+          }
+        `}
       >
         {review.review_text}
       </p>
 
-      {/* Toggle */}
+      {/* Mobile Expand */}
       {isLong && isMobile && (
         <span
           onClick={handleToggle}
@@ -134,7 +159,7 @@ const ReviewCard = ({ review }) => {
         </span>
       )}
 
-      {/* Desktop hint */}
+      {/* Desktop Hint */}
       {isLong && !isMobile && (
         <span className="text-xs text-purple-400 mt-2 block group-hover:hidden">
           See more...
@@ -147,30 +172,39 @@ const ReviewCard = ({ review }) => {
 /* =============================
    Marquee Row
 ============================= */
-function MarqueeRow({ data, reverse = false, speed = 25 }) {
-  const doubled = useMemo(() => [...data, ...data], [data]);
+function MarqueeRow({ data, reverse = false, speed = 40 }) {
+  const duplicatedData = useMemo(() => {
+    return [...data, ...data];
+  }, [data]);
 
   if (!data.length) return null;
 
   return (
     <div
       className="relative w-full overflow-hidden"
-      onMouseEnter={(e) =>
-        e.currentTarget.querySelector(".marquee")?.classList.add("paused")
-      }
-      onMouseLeave={(e) =>
-        e.currentTarget.querySelector(".marquee")?.classList.remove("paused")
-      }
+      onMouseEnter={(e) => {
+        e.currentTarget
+          .querySelector(".marquee")
+          ?.classList.add("paused");
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget
+          .querySelector(".marquee")
+          ?.classList.remove("paused");
+      }}
     >
       <div
-        className="marquee flex min-w-[200%] py-6"
+        className="marquee flex flex-nowrap w-max py-4"
         style={{
           animationDuration: `${speed}s`,
           animationDirection: reverse ? "reverse" : "normal",
         }}
       >
-        {doubled.map((review, i) => (
-          <ReviewCard key={review._id || review.id + "-" + i} review={review} />
+        {duplicatedData.map((review, index) => (
+          <ReviewCard
+            key={`${review._id || review.id}-${index}`}
+            review={review}
+          />
         ))}
       </div>
     </div>
@@ -185,13 +219,20 @@ export default function Reviews() {
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
+  /* =============================
+     Fetch Reviews
+  ============================= */
   useEffect(() => {
     const fetchReviews = async () => {
       try {
         const res = await apiFetch("/api/reviews");
-        if (!res.ok) throw new Error("Failed to fetch");
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch reviews");
+        }
 
         const data = await res.json();
+
         setReviews(data);
       } catch (err) {
         console.error("Error fetching reviews:", err);
@@ -203,73 +244,103 @@ export default function Reviews() {
     fetchReviews();
   }, []);
 
-  // ✅ Detect mobile
+  /* =============================
+     Detect Mobile
+  ============================= */
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
+
     checkMobile();
+
     window.addEventListener("resize", checkMobile);
+
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // ✅ Dynamic row split (2 desktop / 3 mobile)
-  let rows = [];
+  /* =============================
+     Split Rows
+  ============================= */
+  const rows = useMemo(() => {
+    if (!reviews.length) return [];
 
-  if (isMobile) {
-    const size = Math.ceil(reviews.length / 3);
-    rows = [
-      reviews.slice(0, size),
-      reviews.slice(size, size * 2),
-      reviews.slice(size * 2),
-    ];
-  } else {
+    if (isMobile) {
+      const size = Math.ceil(reviews.length / 3);
+
+      return [
+        reviews.slice(0, size),
+        reviews.slice(size, size * 2),
+        reviews.slice(size * 2),
+      ];
+    }
+
     const size = Math.ceil(reviews.length / 2);
-    rows = [
+
+    return [
       reviews.slice(0, size),
       reviews.slice(size),
     ];
-  }
+  }, [reviews, isMobile]);
 
   return (
-    <section id="reviews" className="py-6 md:py-10">
+    <section
+      id="reviews"
+      className="py-6 md:py-10 overflow-hidden"
+    >
+      {/* =============================
+          MARQUEE CSS
+      ============================= */}
       <style>{`
-        @keyframes marqueeScroll {
-          0% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
-        }
-
         .marquee {
           animation-name: marqueeScroll;
           animation-timing-function: linear;
           animation-iteration-count: infinite;
+          will-change: transform;
         }
 
         .marquee.paused {
           animation-play-state: paused;
         }
+
+        @keyframes marqueeScroll {
+          from {
+            transform: translateX(0);
+          }
+
+          to {
+            transform: translateX(calc(-50%));
+          }
+        }
       `}</style>
 
+      {/* Loading */}
       {loading && (
         <div className="text-center text-gray-400 py-10">
           Loading reviews...
         </div>
       )}
 
+      {/* Empty */}
       {!loading && reviews.length === 0 && (
         <div className="text-center text-gray-400 py-10">
           No reviews yet.
         </div>
       )}
 
+      {/* Reviews */}
       {!loading && reviews.length > 0 && (
-        <div className="flex flex-col gap-0 md:gap-1">
+        <div className="flex flex-col gap-2">
           {rows.map((row, index) => (
             <MarqueeRow
               key={index}
               data={row}
               reverse={index % 2 !== 0}
-              speed={isMobile ? 10 + index * 2 : 30 + index * 10}
+              speed={
+                isMobile
+                  ? 45 + index * 8
+                  : 60 + index * 10
+              }
             />
           ))}
         </div>
