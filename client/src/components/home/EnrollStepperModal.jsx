@@ -40,36 +40,25 @@ export default function EnrollStepperModal({
   const isA1 =
     course?.title.includes("A1");
 
-  const isA2 =
-    course?.title.includes("A2");
-
-  const hasBundle = isA1 || isA2;
+  const hasBundle = isA1;
 
   // =====================================
   // BUNDLE INFO
   // =====================================
 
-  const bundleTitle = isA1
-    ? "A1 + A2 Bundle"
-    : "A2 + B1 Bundle";
+  const bundleTitle = "A1 + A2 Bundle";
 
   // DISCOUNTED PRICES
 
-  const bundlePriceEUR = isA1
-    ? 199
-    : 249;
+  const bundlePriceEUR = 199;
 
-  const bundlePriceINR = isA1
-    ? 22300
-    : 27900;
+  const bundlePriceINR = 22300;
 
   // ORIGINAL PRICES
 
-  const originalBundlePriceEUR =
-    isA1 ? 230 : 280;
+  const originalBundlePriceEUR = 230;
 
-  const originalBundlePriceINR =
-    isA1 ? 25700 : 31250;
+  const originalBundlePriceINR = 25700;
 
   // =====================================
   // DYNAMIC VALUES
@@ -212,7 +201,11 @@ export default function EnrollStepperModal({
                 Plan
               </h3>
 
-              <div className="plan-selection">
+              <div
+                className={`plan-selection ${
+                  !hasBundle ? "single-plan" : ""
+                }`}
+              >
 
                 {/* SINGLE PLAN */}
 

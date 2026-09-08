@@ -168,6 +168,11 @@
   margin-top: 25px;
 }
 
+.plan-selection.single-plan {
+  grid-template-columns: minmax(280px, 520px);
+  justify-content: center;
+}
+
 .plan-card {
   background: #161616;
   border: 1px solid
@@ -536,6 +541,10 @@
 
   .plan-selection {
     grid-template-columns: 1fr;
+  }
+
+  .plan-selection.single-plan {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .personal-heading {
