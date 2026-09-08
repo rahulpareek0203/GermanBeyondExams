@@ -171,7 +171,7 @@ import "../styles/navbar.css";
 import "../styles/layout.css";
 import logo from "../assets/logo.png";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 
@@ -181,6 +181,7 @@ import { ArrowRight } from "lucide-react";
 export default function Navbar() {
 
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, logout } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -264,7 +265,7 @@ export default function Navbar() {
             {!user ? (
               <button
                 className="btn btn-login"
-                onClick={() => navigate("/login")}
+                onClick={() => navigate("/login", { state: { from: location } })}
               >
                 Login
               </button>
@@ -435,7 +436,7 @@ export default function Navbar() {
         colorBack: "#acc8f5",
         colorTint: "#e9cf5b",
       }}
-      onClick={() => navigate("/login")}
+      onClick={() => navigate("/login", { state: { from: location } })}
     >
       Login
     </LiquidMetalButton>
