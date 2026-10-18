@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import "../styles/freeResources.css";
-import { useAuth } from "@/context/AuthContext";
 
 const API =
   import.meta.env.VITE_API_URL ||
@@ -20,9 +19,6 @@ export default function FreeResources() {
   // POPUP STATE
   const [showPopup, setShowPopup] =
     useState(false);
-
-  const { user } = useAuth();
-  const userId = user?.id;
 
   // =====================================
   // FETCH RESOURCES

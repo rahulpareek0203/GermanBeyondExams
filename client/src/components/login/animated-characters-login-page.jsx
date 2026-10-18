@@ -339,15 +339,23 @@ function LoginPage() {
           // const redirectPath =
           //   data.user.role === "admin" ? "/admin" : "/";
 
-          const redirectPath =
-            from || (data.user.role === "admin" ? "/admin" : "/dashboard");
+          // Go back to the page the user came from; otherwise the homepage.
+          // Never send them back to login/register.
+          const fromPath = typeof from === "string" ? from : from?.pathname;
+          const canReturn = fromPath && !["/login", "/register"].includes(fromPath);
+          const redirectPath = canReturn
+            ? (typeof from === "string"
+                ? from
+                : { pathname: from.pathname, search: from.search, hash: from.hash })
+            : "/";
+          const redirectState = canReturn && typeof from === "object" ? from.state : undefined;
 
           // Show welcome screen for 3 seconds, then navigate
           setShowWelcome(true);
           console.log(">>> will screen show:",showWelcome)
 
           setTimeout(() => {
-            navigate(redirectPath, { replace: true });
+            navigate(redirectPath, { replace: true, state: redirectState });
           }, 3000);
 
       } catch (error) {
@@ -660,6 +668,7 @@ function LoginPage() {
             Don't have an account?{" "}
             <Link
               to="/register"
+              state={location.state}
               className="text-foreground font-medium hover:underline"
             >
               Sign Up

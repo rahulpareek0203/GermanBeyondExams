@@ -39,14 +39,14 @@ export default function UpcomingBatches() {
             </div>
           </a>
 
-          {/* B1 */}
+          {/* Speaking (A2–B1) */}
           <a href="#courses" className="card batch-card batch-card--clickable">
             <div className="batch-card__header">
-              <div className="batch-card__title">B1 Intermediate</div>
+              <div className="batch-card__title">Speaking Batch</div>
               <div className="batch-card__badge badge--open">Enroll Now</div>
             </div>
             <div className="card__text">
-              Prepare for work, study, and life in Germany.
+              Speak confidently in real-life conversations (A2–B1).
             </div>
           </a>
 

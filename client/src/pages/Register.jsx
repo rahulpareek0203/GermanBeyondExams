@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/layout.css";
 import "../styles/login.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { LampContainer } from "@/components/ui/LampBackground";
 import { motion } from "framer-motion";
 
@@ -18,6 +18,7 @@ export default function Register() {
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
 
 
     async function handleSubmit(e) {
@@ -50,7 +51,7 @@ export default function Register() {
             setLoading(false);
 
             // Optionally redirect to login after success
-            setTimeout(() => navigate("/login"), 800);
+            setTimeout(() => navigate("/login", { state: location.state }), 800);
         
         } catch (error) {
             setMessage("❌ Network error: backend not reachable.");
@@ -147,7 +148,7 @@ export default function Register() {
 
           <div className="text-center mt-6 text-sm text-slate-400">
             Already have an account?{" "}
-            <Link to="/login" className="text-cyan-400 hover:underline">
+            <Link to="/login" state={location.state} className="text-cyan-400 hover:underline">
               Login
             </Link>
           </div>

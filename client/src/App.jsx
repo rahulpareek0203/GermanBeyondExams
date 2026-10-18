@@ -46,16 +46,8 @@ export default function App() {
                 <Route path="/vision" element={<Vision />} />
                 <Route path="/evolution" element={<Evolution />} />
                 
-                {/* ================= COMMON PROTECTED AREA ================= */}
-
-                <Route
-                  path="/free-resources"
-                  element={
-                    <RoleRoute allowedRoles={["student", "admin"]}>
-                      <FreeResources />
-                    </RoleRoute>
-                  }
-                />
+                {/* Public: no login needed */}
+                <Route path="/free-resources" element={<FreeResources />} />
                 {/* ================= STUDENT AREA ================= */}
                 <Route
                   path="/dashboard"

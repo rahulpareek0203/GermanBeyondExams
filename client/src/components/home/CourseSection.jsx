@@ -10,17 +10,18 @@ import EnrollStepperModal from "./EnrollStepperModal";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-const A1_ID = "c18bd7ae-b913-4f3d-b196-2dfc19e0e81a";
-const A2_ID = "a4ac944f-61c6-4577-89c6-c4ab9746eacb";
+const A1_ID = "7b3906eb-b8cb-406a-81f5-4b00f8bf8446"; // Nov 2026 batch
+const A2_ID = "0dddb15f-586e-430f-a03b-b2d3d7f82084"; // Nov 2026 batch
+const SPEAKING_ID = "6aec9cd7-09bf-4f04-a9f3-f414bce4789b"; // Nov 2026 speaking batch
 
 const courses = [
   {
     id: A1_ID,
     title: "German A1 Batch",
     subtitle: "Real German starts at A1. Build it right from day one.",
-    startDate: "Starting 1st October",
+    startDate: "Starting 2nd November",
     time: "6:30 - 8:30 PM IST",
-    timeGER: "3:00 - 5:00 PM CET",
+    timeGER: "2:00 - 4:00 PM CET",
     priceEUR: 99,
     oldPrice: 120,
     priceINR: 11200,
@@ -30,36 +31,47 @@ const courses = [
     id: A2_ID,
     title: "German A2 Batch",
     subtitle: "Take your German to the next level with real conversations.",
-    startDate: "Starting 1st October",
+    startDate: "Starting 2nd November",
     time: "8:30 - 10:30 PM IST",
-    timeGER: "5:00 - 7:00 PM CET",
+    timeGER: "4:00 - 6:00 PM CET",
     priceEUR: 130,
     oldPrice: 150,
     priceINR: 14500,
     totalSeats: 15,
   },
   {
-    id: "b1-coming-soon",
-    title: "German B1 Batch",
-    subtitle: "Speak more fluently, think faster, and communicate naturally in German.",
-    startDate: "Coming Soon",
-    time: null,
-    timeGER: null,
-    priceEUR: null,
-    oldPrice: null,
-    priceINR: null,
+    id: SPEAKING_ID,
+    title: "Real-Life German Speaking (A2–B1)",
+    subtitle: "Speak more fluently, think faster, and hold real conversations in German.",
+    startDate: "Starting 2nd November",
+    time: "10:30 PM - 12:00 AM IST",
+    timeGER: "6:00 - 7:30 PM CET",
+    priceEUR: 130,
+    oldPrice: 150,
+    priceINR: 14500,
     totalSeats: 15,
-    comingSoon: true,
   },
 ];
 
+// Bundle offered on each course's card, keyed by that course's id.
 const bundles = {
   [A1_ID]: {
     title: "A1 + A2 Bundle",
-    courses: ["German A1 Batch", "German A2 Batch"],
     courseIds: [A1_ID, A2_ID],
-    originalPrice: 229,
-    discountedPrice: 199,
+    duration: "2 Months",
+    priceEUR: 199,
+    priceINR: 22300,
+    originalPriceEUR: 230,
+    originalPriceINR: 25700,
+  },
+  [A2_ID]: {
+    title: "A2 + Speaking Bundle",
+    courseIds: [A2_ID, SPEAKING_ID],
+    duration: "2 Months",
+    priceEUR: 229,
+    priceINR: 25600,
+    originalPriceEUR: 260,
+    originalPriceINR: 29000,
   },
 };
 
@@ -77,13 +89,45 @@ export default function CourseSection() {
   const [statusMap, setStatusMap] = useState({});
   const [checking, setChecking] = useState(true);
 
-  const navigateToLogin = () => {
+  // Send to login, remembering which course was clicked so we can
+  // reopen its details when the user comes back.
+  const navigateToLogin = (course) => {
     navigate("/login", {
       state: {
-        from: { ...location, hash: "#courses" },
+        from: {
+          pathname: location.pathname,
+          search: location.search,
+          hash: "#courses",
+          state: course ? { enrollCourseId: course.id } : null,
+        },
       },
     });
   };
+
+  // Scroll to the courses when arriving at /#courses
+  useEffect(() => {
+    if (location.hash === "#courses") {
+      setTimeout(() => {
+        document.getElementById("courses")?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [location.hash]);
+
+  // Back from login: reopen the course the user wanted to join
+  useEffect(() => {
+    const courseId = location.state?.enrollCourseId;
+    if (!courseId || !user || checking) return;
+
+    // Clear it so a refresh doesn't reopen the popup
+    navigate(`${location.pathname}${location.search}${location.hash}`, { replace: true, state: null });
+
+    const course = courses.find((c) => c.id === courseId);
+    const status = statusMap[courseId];
+    if (!course || course.comingSoon || status === "pending" || status === "approved") return;
+
+    setSelectedCourse(course);
+    setShowModal(true);
+  }, [location, user, checking, statusMap, navigate]);
 
   useEffect(() => {
     const fetchSeatCounts = async () => {
@@ -196,49 +240,39 @@ export default function CourseSection() {
     }
   };
 
-  const handleBundleEnrollment = async () => {
+  const handleBundleEnrollment = async (bundle) => {
     if (!user) {
       navigateToLogin();
       return;
     }
 
+    if (!bundle) return;
+
     try {
-      const a1Response = await apiFetch("/api/enrollments", {
-        method: "POST",
-        body: JSON.stringify({ courseId: A1_ID }),
-      }, logout);
+      for (const courseId of bundle.courseIds) {
+        // Skip courses the student has already requested or joined
+        const existing = statusMap[courseId];
+        if (existing === "pending" || existing === "approved") continue;
 
-      if (!a1Response) return;
+        const res = await apiFetch("/api/enrollments", {
+          method: "POST",
+          body: JSON.stringify({ courseId }),
+        }, logout);
 
-      const a1Data = await a1Response.json();
+        if (!res) return;
 
-      if (!a1Response.ok) {
-        alert(a1Data.message || "A1 enrollment failed.");
-        return;
+        if (!res.ok) {
+          const data = await res.json();
+          const name = courses.find((c) => c.id === courseId)?.title || "Course";
+          alert(data.message || `${name} enrollment failed.`);
+          return;
+        }
+
+        setStatusMap((prev) => ({ ...prev, [courseId]: "pending" }));
       }
 
-      const a2Response = await apiFetch("/api/enrollments", {
-        method: "POST",
-        body: JSON.stringify({ courseId: A2_ID }),
-      }, logout);
-
-      if (!a2Response) return;
-
-      const a2Data = await a2Response.json();
-
-      if (!a2Response.ok) {
-        alert(a2Data.message || "A2 enrollment failed.");
-        return;
-      }
-
-      setStatusMap((prev) => ({
-        ...prev,
-        [A1_ID]: "pending",
-        [A2_ID]: "pending",
-      }));
-
-      alert("A1 + A2 Bundle request submitted successfully!");
-      sendMessage("A1 + A2 Bundle");
+      alert(`${bundle.title} request submitted successfully!`);
+      sendMessage(bundle.title);
     } catch (error) {
       console.error("Bundle enrollment error:", error);
       alert("Something went wrong while submitting the bundle request.");
@@ -336,8 +370,11 @@ Please share the payment details, as I am ready to join.
                     {course.time && (
                       <p className="time">
                         <Clock size={18} />
-                        <span>
-                          Mon - Fri • {course.time}
+                        <span className="time-lines">
+                          <span>Mon - Fri • {course.time}</span>
+                          {course.timeGER && (
+                            <span>{course.timeGER} (Germany)</span>
+                          )}
                         </span>
                       </p>
                     )}
@@ -382,7 +419,7 @@ Please share the payment details, as I am ready to join.
                         if (registrationClosed || isComingSoon) return;
 
                         if (!user) {
-                          navigateToLogin();
+                          navigateToLogin(course);
                           return;
                         }
 
@@ -423,8 +460,9 @@ Please share the payment details, as I am ready to join.
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={() => handleJoin(selectedCourse)}
-        onBundleConfirm={() => handleBundleEnrollment()}
+        onBundleConfirm={() => handleBundleEnrollment(bundles[selectedCourse?.id])}
         course={selectedCourse}
+        bundle={bundles[selectedCourse?.id]}
       />
 
     </section>

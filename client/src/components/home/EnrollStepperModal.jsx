@@ -7,6 +7,7 @@ export default function EnrollStepperModal({
   onConfirm,
   onBundleConfirm,
   course,
+  bundle,
 }) {
   const [step, setStep] = useState(1);
   const [confirmed, setConfirmed] =
@@ -34,31 +35,16 @@ export default function EnrollStepperModal({
   if (!isOpen || !course) return null;
 
   // =====================================
-  // COURSE TYPES
+  // BUNDLE INFO (passed in from CourseSection)
   // =====================================
 
-  const isA1 =
-    course?.title.includes("A1");
+  const hasBundle = Boolean(bundle);
 
-  const hasBundle = isA1;
-
-  // =====================================
-  // BUNDLE INFO
-  // =====================================
-
-  const bundleTitle = "A1 + A2 Bundle";
-
-  // DISCOUNTED PRICES
-
-  const bundlePriceEUR = 199;
-
-  const bundlePriceINR = 22300;
-
-  // ORIGINAL PRICES
-
-  const originalBundlePriceEUR = 230;
-
-  const originalBundlePriceINR = 25700;
+  const bundleTitle = bundle?.title;
+  const bundlePriceEUR = bundle?.priceEUR;
+  const bundlePriceINR = bundle?.priceINR;
+  const originalBundlePriceEUR = bundle?.originalPriceEUR;
+  const originalBundlePriceINR = bundle?.originalPriceINR;
 
   // =====================================
   // DYNAMIC VALUES
@@ -80,8 +66,8 @@ export default function EnrollStepperModal({
 
   const duration =
     selectedPlan === "bundle"
-      ? "3 Months"
-      : "1.5 Months";
+      ? bundle?.duration
+      : "1 Month";
 
   // =====================================
   // STEPPER
