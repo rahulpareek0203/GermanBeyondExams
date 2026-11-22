@@ -51,6 +51,12 @@
   margin-bottom: 60px;
 }
 
+/* Only one course on show: one centered column instead of three */
+.a1-top.single-course {
+  grid-template-columns: minmax(0, 380px);
+  justify-content: center;
+}
+
 /* =========================
    CARD CONTAINER
 ========================= */

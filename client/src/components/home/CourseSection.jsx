@@ -12,12 +12,15 @@ const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const A1_ID = "7b3906eb-b8cb-406a-81f5-4b00f8bf8446"; // Nov 2026 batch
 const A2_ID = "0dddb15f-586e-430f-a03b-b2d3d7f82084"; // Nov 2026 batch
-const SPEAKING_ID = "6aec9cd7-09bf-4f04-a9f3-f414bce4789b"; // Nov 2026 speaking batch
+// Nov 2026 speaking batch was 6aec9cd7-09bf-4f04-a9f3-f414bce4789b
+const SPEAKING_ID = "c1294784-a108-498b-b1b6-a10c7e18094e"; // Dec 2026 speaking batch
 
+// Set `hidden: true` to take a course off the page without deleting it.
 const courses = [
   {
     id: A1_ID,
     title: "German A1 Batch",
+    hidden: true,
     subtitle: "Real German starts at A1. Build it right from day one.",
     startDate: "Starting 2nd November",
     time: "6:30 - 8:30 PM IST",
@@ -30,6 +33,7 @@ const courses = [
   {
     id: A2_ID,
     title: "German A2 Batch",
+    hidden: true,
     subtitle: "Take your German to the next level with real conversations.",
     startDate: "Starting 2nd November",
     time: "8:30 - 10:30 PM IST",
@@ -43,7 +47,7 @@ const courses = [
     id: SPEAKING_ID,
     title: "Real-Life German Speaking (A2–B1)",
     subtitle: "Speak more fluently, think faster, and hold real conversations in German.",
-    startDate: "Starting 2nd November",
+    startDate: "Starting 1st December",
     time: "10:30 PM - 12:00 AM IST",
     timeGER: "6:00 - 7:30 PM CET",
     priceEUR: 130,
@@ -52,6 +56,8 @@ const courses = [
     totalSeats: 15,
   },
 ];
+
+const visibleCourses = courses.filter((c) => !c.hidden);
 
 // Bundle offered on each course's card, keyed by that course's id.
 const bundles = {
@@ -123,7 +129,7 @@ export default function CourseSection() {
 
     const course = courses.find((c) => c.id === courseId);
     const status = statusMap[courseId];
-    if (!course || course.comingSoon || status === "pending" || status === "approved") return;
+    if (!course || course.hidden || course.comingSoon || status === "pending" || status === "approved") return;
 
     setSelectedCourse(course);
     setShowModal(true);
@@ -158,7 +164,7 @@ export default function CourseSection() {
         const updates = {};
 
         await Promise.all(
-          courses
+          visibleCourses
             .filter((course) => !course.comingSoon)
             .map(async (course) => {
               try {
@@ -308,8 +314,8 @@ Please share the payment details, as I am ready to join.
 
         <div className="a1-layout">
 
-          <div className="a1-top">
-            {courses.map((course) => {
+          <div className={`a1-top${visibleCourses.length === 1 ? " single-course" : ""}`}>
+            {visibleCourses.map((course) => {
               const totalSeats = course.totalSeats;
               const filledSeatsRaw = seatMap[course.id] || 0;
 
